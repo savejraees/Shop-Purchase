@@ -8,13 +8,16 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
-import com.saifi.shoppurchase.fragment.PurchaseFragment;
 import com.saifi.shoppurchase.fragment.StockFragment;
+import com.saifi.shoppurchase.fragment.Today_ReceivedFragment;
 import com.saifi.shoppurchase.fragment.TotalPurFragment;
+import com.saifi.shoppurchase.util.NoScanResultException;
+import com.saifi.shoppurchase.util.ScanResultReceiver;
 
 public class ManagerActivity extends AppCompatActivity {
 
@@ -51,8 +54,9 @@ public class ManagerActivity extends AppCompatActivity {
                     case 1:
                         fragment = new StockFragment();
                         break;
-//                    case 2:
-//                        fragment = new PurchaseFragment();
+                    case 2:
+                        fragment = new Today_ReceivedFragment();
+                        break;
                 }
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
@@ -75,11 +79,12 @@ public class ManagerActivity extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finishAffinity();
             }
         });
     }
+
 
 
 }

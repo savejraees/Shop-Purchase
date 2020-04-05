@@ -11,7 +11,6 @@
     android:background="@color/whiteCardColor">
 
 
-
     <LinearLayout
         style="@style/linearParent"
         android:layout_gravity="center"
@@ -31,6 +30,8 @@
                 style="@style/modifiedEditText"
                 android:inputType="phone"
                 android:maxLines="1"
+                android:textSize="17dp"
+                android:maxLength="10"
                 android:hint="mobile no."/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,6 +44,8 @@
                 style="@style/modifiedEditText"
                 android:hint="Password"
                 android:maxLines="1"
+                android:textSize="17dp"
+                android:maxLength="15"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 

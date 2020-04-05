@@ -13,9 +13,9 @@ import com.saifi.shoppurchase.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PurchaseFragment extends Fragment {
+public class Today_ReceivedFragment extends Fragment {
 
-    public PurchaseFragment() {
+    public Today_ReceivedFragment() {
         // Required empty public constructor
     }
 
@@ -24,6 +24,6 @@ public class PurchaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_purchase, container, false);
+        return inflater.inflate(R.layout.fragment_todayreceived, container, false);
     }
 }
