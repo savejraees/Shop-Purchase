@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,20 +23,26 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.api.Api;
 import com.google.android.material.textfield.TextInputLayout;
 import com.saifi.shoppurchase.adapter.ModelAdapter;
+import com.saifi.shoppurchase.constants.SessonManager;
 import com.saifi.shoppurchase.constants.Url;
 import com.saifi.shoppurchase.model.BrandSpinner;
 import com.saifi.shoppurchase.model.Model_Model;
 import com.saifi.shoppurchase.model.SeriesModel;
+import com.saifi.shoppurchase.retrofitmodel.ShopModel;
+import com.saifi.shoppurchase.service.ApiInterface;
 import com.saifi.shoppurchase.util.NoScanResultException;
 import com.saifi.shoppurchase.util.ScanFragment;
 import com.saifi.shoppurchase.util.ScanResultReceiver;
@@ -48,25 +55,34 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShopActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener, ScanResultReceiver {
 
     RadioGroup radioShop, radioWarranty;
+    RadioButton radioAccesories;
     CheckBox chkExchange;
-    EditText editTextExchange,edt_imei;
+    EditText editTextExchange, edt_imei, edit_Brand, edt_model, edt_remarks, edt_actualPrice, edt_customer_aadhar;
+    EditText editTextOrder, edt_gb, edt_purchase_amount, edt_customer_name, edt_customer_mobile, editTextOtp;
     TextInputLayout textInputExchange;
     LinearLayout layoutAccesother, layoutMobTab;
     Spinner Warranty_spinner, spinnerSeries, spinnerBrandMobile, condition_spinner;
     AutoCompleteTextView model_autocompleteTv;
-    Button finalSubmitButton;
+    Button finalSubmitButton, otpButton, otpSubmitButton;
     ImageView imgBacktoMAin;
-    String warrenty_month = "", productCategory = "", conditon_Mobile = "";
+    String warrenty = "", warrenty_month = "", productCategory = "", conditon_Mobile = "";
     String brand_id = "", brandName = "", series_id = "", seriesName = "", idmodel = "", modelName = "";
     ModelAdapter modelAdapter;
     Views views = new Views();
     ImageView scanNow;
-
+    TextView txtOtpContact, txtResend, txtName, txtContactShop,txtPhoneId;
     ArrayList<BrandSpinner> brand_list = new ArrayList<>();
     final ArrayList<String> brand_list_datamobile = new ArrayList();
     ArrayList<SeriesModel> series_list = new ArrayList<>();
@@ -82,6 +98,10 @@ public class ShopActivity extends AppCompatActivity implements
     };
 
     String condition[] = {"Excellent", "Very Good", "Good", "Average"};
+    String otp, mesage;
+
+    SessonManager sessonManager;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +138,12 @@ public class ShopActivity extends AppCompatActivity implements
                         layoutMobTab.setVisibility(View.GONE);
                         layoutAccesother.setVisibility(View.VISIBLE);
                         productCategory = "Accessories";
+                        brand_id = "";
+                        brandName = "";
+                        series_id = "";
+                        seriesName = "";
+                        modelName = "";
+                        idmodel = "";
                     }
                 }
             }
@@ -138,8 +164,8 @@ public class ShopActivity extends AppCompatActivity implements
                             public void onItemSelected(AdapterView<?> parent, View view,
                                                        int position, long id) {
 
+                                warrenty = "In";
                                 warrenty_month = Warranty_data[position];
-
                                 Log.d("fasfafas", warrenty_month);
                             }
 
@@ -152,6 +178,7 @@ public class ShopActivity extends AppCompatActivity implements
                     if (checkedRadioButton.getText().toString().equals("Out")) {
                         Warranty_spinner.setVisibility(View.GONE);
                         warrenty_month = "";
+                        warrenty = "Out";
                     }
 
                 }
@@ -166,6 +193,7 @@ public class ShopActivity extends AppCompatActivity implements
                     textInputExchange.setVisibility(View.VISIBLE);
                 } else {
                     textInputExchange.setVisibility(View.GONE);
+                    editTextExchange.setText("");
                 }
 
             }
@@ -178,10 +206,53 @@ public class ShopActivity extends AppCompatActivity implements
             }
         });
 
+
         finalSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ShopImageActivity.class));
+                // startActivity(new Intent(getApplicationContext(), ShopImageActivity.class));
+                if (radioAccesories.isChecked()) {
+                    brandName = edit_Brand.getText().toString();
+                    modelName = edt_model.getText().toString();
+                }
+
+
+                if (editTextOrder.getText().toString().isEmpty()) {
+                    editTextOrder.setError("Please enter Order no.");
+                    editTextOrder.requestFocus();
+                } else if (brandName.equals("") || brandName.isEmpty()) {
+                    Toast.makeText(ShopActivity.this, "Please enter brand", Toast.LENGTH_SHORT).show();
+                } else if (modelName.equals("") || modelName.isEmpty()) {
+                    Toast.makeText(ShopActivity.this, "Please enter Model", Toast.LENGTH_SHORT).show();
+                } else if (edt_gb.getText().toString().isEmpty()) {
+                    edt_gb.setError("Please enter GB");
+                    edt_gb.requestFocus();
+                } else if (edt_imei.getText().toString().isEmpty()) {
+                    edt_imei.setError("Please enter Imei no.");
+                    edt_imei.requestFocus();
+                } else if (edt_purchase_amount.getText().toString().isEmpty()) {
+                    edt_purchase_amount.setError("Please enter Purchase Amount");
+                    edt_purchase_amount.requestFocus();
+                } else if (edt_customer_name.getText().toString().isEmpty()) {
+                    edt_customer_name.setError("Please enter Customer Name");
+                    edt_customer_name.requestFocus();
+                } else if (edt_customer_mobile.getText().toString().isEmpty()) {
+                    edt_customer_mobile.setError("Please enter Customer Mobile No.");
+                    edt_customer_mobile.requestFocus();
+                } else if (edt_customer_aadhar.getText().toString().isEmpty()) {
+                    edt_customer_aadhar.setError("Please Enter Aadhar No.");
+                    edt_customer_aadhar.requestFocus();
+                } else if (edt_remarks.getText().toString().isEmpty()) {
+                    edt_remarks.setError("Please enter Remarks");
+                    edt_remarks.requestFocus();
+                } else if (edt_actualPrice.getText().toString().isEmpty()) {
+                    edt_actualPrice.setError("Please Actual Price");
+                    edt_actualPrice.requestFocus();
+                } else {
+                    hitFinalApi();
+                }
+
+
             }
         });
 
@@ -254,11 +325,66 @@ public class ShopActivity extends AppCompatActivity implements
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ScanFragment scanFragment = new ScanFragment();
-                fragmentTransaction.add(R.id.scan_fragment,scanFragment);
+                fragmentTransaction.add(R.id.scan_fragment, scanFragment);
                 fragmentTransaction.commit();
             }
         });
+
+        otpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edt_customer_mobile.getText().toString().isEmpty()) {
+                    edt_customer_mobile.setError("Please enter Customer Mobile No.");
+                    edt_customer_mobile.requestFocus();
+                } else if (edt_customer_mobile.getText().toString().length() != 10) {
+                    edt_customer_mobile.setError("Mobile No. Should be 10 digits");
+                    edt_customer_mobile.requestFocus();
+                } else {
+                    final Dialog dialog = new Dialog(ShopActivity.this);
+                    dialog.setContentView(R.layout.otp_dialog);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.setCancelable(false);
+                    txtOtpContact = dialog.findViewById(R.id.txtContact);
+                    txtResend = dialog.findViewById(R.id.txtResend);
+                    editTextOtp = dialog.findViewById(R.id.editTextOtp);
+                    otpSubmitButton = dialog.findViewById(R.id.otpSubmitButton);
+                    dialog.show();
+
+                    txtOtpContact.setText("+91" + edt_customer_mobile.getText().toString());
+
+                    hitUrlForOtp();
+
+                    txtResend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            hitUrlForOtp();
+                        }
+                    });
+
+
+                    otpSubmitButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (editTextOtp.getText().toString().isEmpty()) {
+                                editTextOtp.setError("Please enter Otp");
+                                editTextOtp.requestFocus();
+                            } else if (!(editTextOtp.getText().toString().equals(otp))) {
+                                editTextOtp.getText().clear();
+                                editTextOtp.requestFocus();
+                                Toast.makeText(ShopActivity.this, "Please enter Valid Otp", Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
+
+
 
     private void init() {
         radioShop = findViewById(R.id.radioShop);
@@ -267,17 +393,35 @@ public class ShopActivity extends AppCompatActivity implements
         layoutMobTab = findViewById(R.id.layoutMobTab);
         Warranty_spinner = findViewById(R.id.Warranty_spinner);
         finalSubmitButton = findViewById(R.id.finalSubmitButton);
+        otpButton = findViewById(R.id.otpButton);
         chkExchange = findViewById(R.id.chkExchange);
         textInputExchange = findViewById(R.id.textInputExchange);
         editTextExchange = findViewById(R.id.editTextExchange);
+        editTextOrder = findViewById(R.id.editTextOrder);
+        edt_gb = findViewById(R.id.edt_gb);
+        edt_purchase_amount = findViewById(R.id.edt_purchase_amount);
+        edt_customer_name = findViewById(R.id.edt_customer_name);
+        edt_customer_mobile = findViewById(R.id.edt_customer_mobile);
+        edt_remarks = findViewById(R.id.edt_remarks);
+        edt_actualPrice = findViewById(R.id.edt_actualPrice);
+        edt_customer_aadhar = findViewById(R.id.edt_customer_aadhar);
         edt_imei = findViewById(R.id.edt_imei);
         imgBacktoMAin = findViewById(R.id.imgBacktoMAin);
         spinnerBrandMobile = findViewById(R.id.spinnerBrandMobile);
         spinnerSeries = findViewById(R.id.spinnerSeries);
+        radioAccesories = findViewById(R.id.radioAccesories);
+        edit_Brand = findViewById(R.id.edit_Brand);
+        edt_model = findViewById(R.id.edt_model);
+        txtName = findViewById(R.id.txtNameShop);
+        txtContactShop = findViewById(R.id.txtContactShop);
         scanNow = findViewById(R.id.scanNow);
         model_autocompleteTv = findViewById(R.id.model_autocompleteTv);
         model_autocompleteTv.setThreshold(1);
 
+        sessonManager = new SessonManager(ShopActivity.this);
+        userId = sessonManager.getToken();
+        txtName.setText(sessonManager.getUserName());
+        txtContactShop.setText("(" + sessonManager.getMobile() + ")");
 
         //////////////////// condtion spinner //////////////////
         condition_spinner = findViewById(R.id.condition_spinner);
@@ -285,6 +429,46 @@ public class ShopActivity extends AppCompatActivity implements
         condition_spinner.setAdapter(cndnAdapter);
     }
 
+    //////////////////////////////// final Api /////////////////////////////////////////////////
+
+    private void hitFinalApi() {
+        views.showProgress(ShopActivity.this);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Url.BASE_URL)
+                .build();
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        Call<ShopModel> call = api.hitFinalShop(Url.key, editTextOrder.getText().toString(), productCategory,
+                edt_gb.getText().toString(), warrenty, warrenty_month, edt_imei.getText().toString(),
+                edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
+                edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
+                edt_remarks.getText().toString(), edt_actualPrice.getText().toString(),
+                brandName, seriesName, modelName, userId, conditon_Mobile, editTextExchange.getText().toString());
+
+
+        call.enqueue(new Callback<ShopModel>() {
+            @Override
+            public void onResponse(Call<ShopModel> call, Response<ShopModel> response) {
+                views.hideProgress();
+                if (response.isSuccessful()) {
+                    ShopModel model = response.body();
+                    if (model.getCode().equals("200")) {
+                        views.showToast(ShopActivity.this, model.getMsg());
+                        startActivity(new Intent(ShopActivity.this, ShopImageActivity.class)
+                                .putExtra("phoneId", model.getPhoneId()));
+                    } else {
+                        views.showToast(ShopActivity.this, model.getMsg());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShopModel> call, Throwable t) {
+                views.hideProgress();
+            }
+        });
+    }
 
     //////////////////////////////////////////Brand Spinner /////////////////////////////////////
 
@@ -490,4 +674,52 @@ public class ShopActivity extends AppCompatActivity implements
     public void scanResultData(NoScanResultException noScanData) {
 
     }
+
+    private void hitUrlForOtp() {
+        otp = String.valueOf(randomOtp());
+        mesage = "Your verification code is :" + otp;
+        Log.d("msg", mesage);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Url.SENDOTP, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("chekclohin", response);
+
+                Toast.makeText(getApplicationContext(), "OTP sent your mobile number", Toast.LENGTH_SHORT).show();
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("authkey", "290873ACnsgu9J5d5fd88f");
+                hashMap.put("message", mesage);
+                hashMap.put("country", "91");
+                hashMap.put("route", "106");
+                hashMap.put("sender", "MSGOTP");
+                hashMap.put("mobiles", edt_customer_mobile.getText().toString());
+                Log.d("checkparams", hashMap.toString());
+                return hashMap;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+
+    }
+
+    private int randomOtp() {
+        Random rnd = new Random();
+        int n = 1000 + rnd.nextInt(9000);
+        return n;
+    }
+
+
 }

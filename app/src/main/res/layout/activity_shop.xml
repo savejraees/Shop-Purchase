@@ -27,7 +27,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/txtName"
+            android:id="@+id/txtNameShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -37,7 +37,7 @@
             android:textSize="18dp"/>
 
         <TextView
-            android:id="@+id/txtContact"
+            android:id="@+id/txtContactShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -115,6 +115,7 @@
                     </RadioButton>
 
                     <RadioButton
+                        android:id="@+id/radioAccesories"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -400,6 +401,7 @@
                             android:textColor="#000"
                             android:textColorHint="#433F3F"
                             android:textSize="17dp"
+                            android:maxLength="15"
                             android:hint="Imei no."/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -587,8 +589,9 @@
                         android:inputType="number"
                         android:textColorHint="#433F3F"
                         android:textSize="17dp"
-                        android:hint="Actual Price"/>
+                        android:hint="App Price"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <Button
                     android:id="@+id/finalSubmitButton"

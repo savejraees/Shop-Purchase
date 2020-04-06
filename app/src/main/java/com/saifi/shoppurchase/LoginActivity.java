@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                        // Gson gson = new GsonBuilder().create();
 //                        ResponseError responseError = gson.fromJson(gson.toJson(loginModel.getMsg()),ResponseError.class);
-                        views.showToast(getApplicationContext(), "Invalid user");
+                        views.showToast(getApplicationContext(), ""+loginModel.getMsg());
                     }
                 }
                 else
