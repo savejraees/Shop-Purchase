@@ -82,12 +82,13 @@ public class ShopActivity extends AppCompatActivity implements
     ModelAdapter modelAdapter;
     Views views = new Views();
     ImageView scanNow;
-    TextView txtOtpContact, txtResend, txtName, txtContactShop,txtPhoneId;
+    TextView txtOtpContact, txtResend, txtName, txtContactShop, txtPhoneId;
     ArrayList<BrandSpinner> brand_list = new ArrayList<>();
     final ArrayList<String> brand_list_datamobile = new ArrayList();
     ArrayList<SeriesModel> series_list = new ArrayList<>();
     final ArrayList<String> series_list_dataSeries = new ArrayList();
     ArrayList<Model_Model> model_list = new ArrayList<>();
+    String remark = "";
 
     String Warranty_data[] = {
             "0 - 1 month old",
@@ -242,9 +243,6 @@ public class ShopActivity extends AppCompatActivity implements
                 } else if (edt_customer_aadhar.getText().toString().isEmpty()) {
                     edt_customer_aadhar.setError("Please Enter Aadhar No.");
                     edt_customer_aadhar.requestFocus();
-                } else if (edt_remarks.getText().toString().isEmpty()) {
-                    edt_remarks.setError("Please enter Remarks");
-                    edt_remarks.requestFocus();
                 } else if (edt_actualPrice.getText().toString().isEmpty()) {
                     edt_actualPrice.setError("Please Actual Price");
                     edt_actualPrice.requestFocus();
@@ -385,7 +383,6 @@ public class ShopActivity extends AppCompatActivity implements
     }
 
 
-
     private void init() {
         radioShop = findViewById(R.id.radioShop);
         radioWarranty = findViewById(R.id.radioWarranty);
@@ -434,6 +431,12 @@ public class ShopActivity extends AppCompatActivity implements
     private void hitFinalApi() {
         views.showProgress(ShopActivity.this);
 
+        if (edt_remarks.getText().toString().isEmpty()) {
+            remark = "";
+        } else {
+            remark = edt_remarks.getText().toString();
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Url.BASE_URL)
@@ -443,7 +446,7 @@ public class ShopActivity extends AppCompatActivity implements
                 edt_gb.getText().toString(), warrenty, warrenty_month, edt_imei.getText().toString(),
                 edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
                 edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
-                edt_remarks.getText().toString(), edt_actualPrice.getText().toString(),
+                remark, edt_actualPrice.getText().toString(),
                 brandName, seriesName, modelName, userId, conditon_Mobile, editTextExchange.getText().toString());
 
 

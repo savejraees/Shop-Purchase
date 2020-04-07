@@ -23,7 +23,6 @@ public class ScanFragment extends Fragment {
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
         integrator.setPrompt(this.getString(R.string.scan_bar_code));
         integrator.setResultDisplayDuration(0); // milliseconds to display result on screen after scan
-        integrator.setScanningRectangle(500, 500);//size
         integrator.setCameraId(0);  // Use a specific camera of the device
         integrator.initiateScan();
     }

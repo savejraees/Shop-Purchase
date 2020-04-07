@@ -76,6 +76,7 @@
 
         </TextView>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Invoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
@@ -133,6 +134,7 @@
 
         </TextView>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Mobile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
@@ -189,6 +191,7 @@
 
         </TextView>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Customer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
