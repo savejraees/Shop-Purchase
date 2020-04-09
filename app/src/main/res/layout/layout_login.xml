@@ -50,6 +50,33 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <RadioGroup
+            android:id="@+id/radioLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User"
+                android:textSize="17dp">
+
+            </RadioButton>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Manager"
+                android:textSize="17dp">
+
+            </RadioButton>
+
+
+        </RadioGroup>
+
 
         <Button
             android:id="@+id/loginButton"

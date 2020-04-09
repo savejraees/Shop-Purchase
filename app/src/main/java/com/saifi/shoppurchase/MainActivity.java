@@ -21,11 +21,12 @@ import static android.media.MediaRecorder.VideoSource.CAMERA;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button shopButton,managerButton,returnButton;
+    Button shopButton, managerButton, returnButton;
     RelativeLayout mainLaout;
-    long back_pressed=0;
+    long back_pressed = 0;
     SessonManager sessonManager;
     TextView txtLogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,25 +34,30 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         sessonManager = new SessonManager(getBaseContext());
 
-        askForPermissioncamera(Manifest.permission.CAMERA,CAMERA);
+        askForPermissioncamera(Manifest.permission.CAMERA, CAMERA);
 
         managerButton = findViewById(R.id.managerButton);
         shopButton = findViewById(R.id.shopButton);
         returnButton = findViewById(R.id.returnButton);
         txtLogout = findViewById(R.id.txtLogout);
         mainLaout = findViewById(R.id.mainLaout);
+        if (sessonManager.getUserType().equals("Manager")) {
+            managerButton.setVisibility(View.VISIBLE);
+        } else {
+            managerButton.setVisibility(View.GONE);
+        }
 
         shopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ShopActivity.class));
+                startActivity(new Intent(getApplicationContext(), ShopActivity.class));
             }
         });
 
         managerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ManagerActivity.class));
+                startActivity(new Intent(getApplicationContext(), ManagerActivity.class));
             }
         });
 
@@ -60,7 +66,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 sessonManager.setToken("");
                 finish();
-                startActivity(new Intent(getBaseContext(),LoginActivity.class));
+                startActivity(new Intent(getBaseContext(), LoginActivity.class));
+            }
+        });
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ReturnActivity.class));
             }
         });
     }
@@ -70,10 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (back_pressed + 2000 > System.currentTimeMillis())
             super.onBackPressed();
-        else
-        {
-            Snackbar snackbar=Snackbar.make(mainLaout, "Double Tap to Exit!", Snackbar.LENGTH_SHORT);
-            View view=snackbar.getView();
+        else {
+            Snackbar snackbar = Snackbar.make(mainLaout, "Double Tap to Exit!", Snackbar.LENGTH_SHORT);
+            View view = snackbar.getView();
             view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             snackbar.show();
             back_pressed = System.currentTimeMillis();

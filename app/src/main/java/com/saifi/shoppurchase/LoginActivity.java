@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -32,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     ImageView imgCross;
     SessonManager sessonManager;
     Views views;
+    RadioGroup radioLogin;
+    String UserType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextMobile = findViewById(R.id.editTextMobile);
         editTextPassword = findViewById(R.id.editTextPassword);
         imgCross = findViewById(R.id.imgCross);
+        radioLogin = findViewById(R.id.radioLogin);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,10 +67,12 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (editTextPassword.getText().toString().isEmpty()) {
                     editTextPassword.setError("Can't be Blank");
                     editTextPassword.requestFocus();
-                } else {
+                }
+                else if(UserType.equals("")){
+                    Toast.makeText(LoginActivity.this, "Please Select User or Managaer", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     hitApi();
-
-
                 }
 
             }
@@ -73,6 +81,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        radioLogin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedButton = radioLogin.findViewById(i);
+                boolean checked = checkedButton.isChecked();
+                if(checked){
+                    if(checkedButton.getText().toString().equals("User")) {
+                        UserType = "User";
+                    }
+                    if(checkedButton.getText().toString().equals("Manager")) {
+                        UserType = "Manager";
+                    }
+                }
             }
         });
     }
@@ -105,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                         sessonManager.setToken(String.valueOf(userId));
                         sessonManager.setMobile(mobile);
                         sessonManager.setUserName(name);
+                        sessonManager.setUserType(UserType);
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finishAffinity();

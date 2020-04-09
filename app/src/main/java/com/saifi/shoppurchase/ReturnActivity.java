@@ -5,66 +5,57 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.saifi.shoppurchase.fragment.RequestedFragment;
+import com.saifi.shoppurchase.fragment.ReturnFragment;
 import com.saifi.shoppurchase.fragment.StockFragment;
+import com.saifi.shoppurchase.fragment.TodayReturnFragment;
 import com.saifi.shoppurchase.fragment.Today_ReceivedFragment;
 import com.saifi.shoppurchase.fragment.TotalPurFragment;
 import com.saifi.shoppurchase.util.NoScanResultException;
 import com.saifi.shoppurchase.util.ScanResultReceiver;
 
-public class ManagerActivity extends AppCompatActivity {
+public class ReturnActivity extends AppCompatActivity implements ScanResultReceiver {
 
-    TabLayout tabLayout;
-    FrameLayout frameLayout;
+    TabLayout tabLayoutReturn;
+    FrameLayout frameLayoutRequest;
+    Fragment fragment = null;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    Fragment fragment = null;
-    ImageView imgBack;
-
+    public String barcode = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager);
+        setContentView(R.layout.activity_return);
         getSupportActionBar().hide();
-        tabLayout = findViewById(R.id.tabLayout);
-        frameLayout = findViewById(R.id.frameLayout);
-        imgBack = findViewById(R.id.imgBack);
 
-        fragment = new TotalPurFragment();
+        tabLayoutReturn = findViewById(R.id.tabLayoutReturn);
+        frameLayoutRequest = findViewById(R.id.frameLayoutRequest);
+
+        fragment = new ReturnFragment();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.replace(R.id.frameLayoutRequest, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayoutReturn.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        fragment = new TotalPurFragment();
+                        fragment = new ReturnFragment();
                         break;
                     case 1:
-                        fragment = new StockFragment();
-                        break;
-                    case 2:
-                        fragment = new Today_ReceivedFragment();
-                        break;
-                    case 3:
-                        fragment = new RequestedFragment();
+                        fragment = new TodayReturnFragment();
                         break;
                 }
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.frameLayout, fragment);
+                ft.replace(R.id.frameLayoutRequest, fragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.commit();
             }
@@ -79,15 +70,14 @@ public class ManagerActivity extends AppCompatActivity {
 
             }
         });
-
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finishAffinity();
-            }
-        });
+    }
+    @Override
+    public void scanResultData(String codeFormat, String codeContent) {
+        barcode = codeContent;
     }
 
+    @Override
+    public void scanResultData(NoScanResultException noScanData) {
 
+    }
 }

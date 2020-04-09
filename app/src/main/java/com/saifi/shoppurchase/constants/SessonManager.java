@@ -9,6 +9,7 @@ public class SessonManager {
     public static final String token = "Token";
     public static  final String mobile = "mobile";
     public static  final String userName = "Name";
+    public static  final String userType = "User";
 
     public SessonManager(Context context){
      sharedPreferences = context.getSharedPreferences("sharedPrefrence",Context.MODE_PRIVATE);
@@ -41,4 +42,12 @@ public void setUserName(String nam){
         editor.commit();
 }
 
+public String getUserType(){
+        return sharedPreferences.getString(userType,"");
+}
+
+public void setUserType(String type){
+        editor.putString(userType,type);
+        editor.commit();
+}
 }
