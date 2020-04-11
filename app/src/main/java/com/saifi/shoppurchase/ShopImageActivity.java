@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,7 +29,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
@@ -230,6 +228,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         partMap.put("key", ApiFactory.getRequestBodyFromString(Url.key));
         partMap.put("shop_purchase_id", ApiFactory.getRequestBodyFromString(phoneId));
         partMap.put("barcode_scan", ApiFactory.getRequestBodyFromString(txtBarcodeId.getText().toString()));
+        partMap.put("image_category", ApiFactory.getRequestBodyFromString(imageCAtegory));
 
         MultipartBody.Part[] imageArrayInvoice = new MultipartBody.Part[imagePathListMobile.size()];
 
@@ -288,6 +287,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         partMap.put("key", ApiFactory.getRequestBodyFromString(Url.key));
         partMap.put("shop_purchase_id", ApiFactory.getRequestBodyFromString(phoneId));
         partMap.put("barcode_scan", ApiFactory.getRequestBodyFromString(txtBarcodeId.getText().toString()));
+        partMap.put("image_category", ApiFactory.getRequestBodyFromString(imageCAtegory));
 
         MultipartBody.Part[] imageArrayInvoice = new MultipartBody.Part[imagePathListCustomer.size()];
 
@@ -362,8 +362,9 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                     Toast.makeText(ShopImageActivity.this, "Please Scan BarCode", Toast.LENGTH_SHORT).show();
                 } else {
                     count = 2;
-                    startDialogMobile();
                     imageCAtegory = "mobile";
+                    startDialogMobile();
+
                 }
 
             }
@@ -376,8 +377,9 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                     Toast.makeText(ShopImageActivity.this, "Please Scan BarCode", Toast.LENGTH_SHORT).show();
                 } else {
                     count = 3;
-                    startDialogCustomer();
                     imageCAtegory = "customer";
+                    startDialogCustomer();
+
                 }
 
             }
