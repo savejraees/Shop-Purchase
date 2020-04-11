@@ -67,7 +67,7 @@ import retrofit2.Response;
 
 public class ShopImageActivity extends AppCompatActivity implements ScanResultReceiver {
 
-    String phoneId = "";
+    String phoneId = "",imageCAtegory="";
     Button btnBarCodeScan, selectInVoiceButton, selectMobileButton, selectCustomerButton;
     Button uploadInVoiceButton, uploadMobileButton, uploadCustomerButton,finalImageButton;
     TextView txtBarcodeId;
@@ -171,6 +171,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         partMap.put("key", ApiFactory.getRequestBodyFromString(Url.key));
         partMap.put("shop_purchase_id", ApiFactory.getRequestBodyFromString(phoneId));
         partMap.put("barcode_scan", ApiFactory.getRequestBodyFromString(txtBarcodeId.getText().toString()));
+        partMap.put("image_category", ApiFactory.getRequestBodyFromString(imageCAtegory));
 
         MultipartBody.Part[] imageArrayInvoice = new MultipartBody.Part[imagePathListInvoice.size()];
 
@@ -347,6 +348,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                     Toast.makeText(ShopImageActivity.this, "Please Scan BarCode", Toast.LENGTH_SHORT).show();
                 } else {
                     count = 1;
+                    imageCAtegory = "invoice";
                     startDialogInvoice();
                 }
 
@@ -361,6 +363,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 } else {
                     count = 2;
                     startDialogMobile();
+                    imageCAtegory = "mobile";
                 }
 
             }
@@ -374,6 +377,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 } else {
                     count = 3;
                     startDialogCustomer();
+                    imageCAtegory = "customer";
                 }
 
             }
@@ -936,7 +940,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Displaying a toast
-                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
             } else {
                 //Displaying another toast if permission is not granted
                 Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();

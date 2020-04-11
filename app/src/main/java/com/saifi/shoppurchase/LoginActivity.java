@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -90,10 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                 boolean checked = checkedButton.isChecked();
                 if(checked){
                     if(checkedButton.getText().toString().equals("User")) {
-                        UserType = "User";
+                        UserType = "user";
                     }
                     if(checkedButton.getText().toString().equals("Manager")) {
-                        UserType = "Manager";
+                        UserType = "manager";
                     }
                 }
             }
@@ -110,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         ApiInterface api = retrofit.create(ApiInterface.class);
 
         Call<LoginModel> call = api.hitLogin(Url.key, editTextMobile.getText().toString(),
-                editTextPassword.getText().toString(), "shop");
+                editTextPassword.getText().toString(), "shop",UserType);
 
         call.enqueue(new Callback<LoginModel>() {
             @Override
@@ -124,11 +125,16 @@ public class LoginActivity extends AppCompatActivity {
 
                         String name = loginModel.getName();
                         String mobile = loginModel.getMobile();
+                        String location = loginModel.getLocation();
+                        int Buisnesslocation = loginModel.getBusinessLocationId();
+
                         int userId = loginModel.getUserid();
                         sessonManager.setToken(String.valueOf(userId));
                         sessonManager.setMobile(mobile);
                         sessonManager.setUserName(name);
                         sessonManager.setUserType(UserType);
+                        sessonManager.setLocation(location);
+                        sessonManager.setBuisnessLocationId(String.valueOf(Buisnesslocation));
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finishAffinity();

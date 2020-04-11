@@ -82,7 +82,7 @@ public class ShopActivity extends AppCompatActivity implements
     ModelAdapter modelAdapter;
     Views views = new Views();
     ImageView scanNow;
-    TextView txtOtpContact, txtResend, txtName, txtContactShop, txtPhoneId;
+    TextView txtOtpContact, txtResend, txtName, txtContactShop,txtLocation;
     ArrayList<BrandSpinner> brand_list = new ArrayList<>();
     final ArrayList<String> brand_list_datamobile = new ArrayList();
     ArrayList<SeriesModel> series_list = new ArrayList<>();
@@ -393,6 +393,7 @@ public class ShopActivity extends AppCompatActivity implements
         otpButton = findViewById(R.id.otpButton);
         chkExchange = findViewById(R.id.chkExchange);
         textInputExchange = findViewById(R.id.textInputExchange);
+        txtLocation = findViewById(R.id.txtLocation);
         editTextExchange = findViewById(R.id.editTextExchange);
         editTextOrder = findViewById(R.id.editTextOrder);
         edt_gb = findViewById(R.id.edt_gb);
@@ -419,6 +420,7 @@ public class ShopActivity extends AppCompatActivity implements
         userId = sessonManager.getToken();
         txtName.setText(sessonManager.getUserName());
         txtContactShop.setText("(" + sessonManager.getMobile() + ")");
+        txtLocation.setText(sessonManager.getLocation());
 
         //////////////////// condtion spinner //////////////////
         condition_spinner = findViewById(R.id.condition_spinner);
@@ -447,7 +449,8 @@ public class ShopActivity extends AppCompatActivity implements
                 edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
                 edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
                 remark, edt_actualPrice.getText().toString(),
-                brandName, seriesName, modelName, userId, conditon_Mobile, editTextExchange.getText().toString());
+                brandName, seriesName, modelName, userId, conditon_Mobile, editTextExchange.getText().toString(),
+                "Shop Purchase",sessonManager.getBuisnessLocationId(),"");
 
 
         call.enqueue(new Callback<ShopModel>() {
