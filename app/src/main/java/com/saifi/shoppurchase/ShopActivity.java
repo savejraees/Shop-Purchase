@@ -82,7 +82,7 @@ public class ShopActivity extends AppCompatActivity implements
     ModelAdapter modelAdapter;
     Views views = new Views();
     ImageView scanNow;
-    TextView txtOtpContact, txtResend, txtName, txtContactShop,txtLocation;
+    TextView txtOtpContact, txtResend, txtName, txtContactShop, txtLocation;
     ArrayList<BrandSpinner> brand_list = new ArrayList<>();
     final ArrayList<String> brand_list_datamobile = new ArrayList();
     ArrayList<SeriesModel> series_list = new ArrayList<>();
@@ -450,7 +450,7 @@ public class ShopActivity extends AppCompatActivity implements
                 edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
                 remark, edt_actualPrice.getText().toString(),
                 brandName, seriesName, modelName, userId, conditon_Mobile, editTextExchange.getText().toString(),
-                "Shop Purchase",sessonManager.getBuisnessLocationId(),"");
+                "Shop Purchase", sessonManager.getBuisnessLocationId(), "");
 
 
         call.enqueue(new Callback<ShopModel>() {

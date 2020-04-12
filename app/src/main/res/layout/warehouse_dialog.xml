@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_height="200dp">
+
+
+
+    <EditText
+        android:id="@+id/editTextCode"
+        style="@style/modifiedEditText"
+        android:layout_width="match_parent"
+        android:hint="Enter The Code."
+        android:inputType="phone"
+        android:maxLength="6"
+        android:maxLines="1"
+        android:textSize="17dp" />
+
+    <Button
+        android:id="@+id/codeSubmitButton"
+        style="@style/loginButton"
+        android:text="Done"
+        android:background="@drawable/login_shape_bk"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/loginViewsMargin" />
+
+</LinearLayout>

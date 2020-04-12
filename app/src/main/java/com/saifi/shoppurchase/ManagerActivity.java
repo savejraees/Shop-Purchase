@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.saifi.shoppurchase.constants.SessonManager;
 import com.saifi.shoppurchase.fragment.RequestedFragment;
 import com.saifi.shoppurchase.fragment.StockFragment;
 import com.saifi.shoppurchase.fragment.Today_ReceivedFragment;
@@ -28,7 +30,9 @@ public class ManagerActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     Fragment fragment = null;
     ImageView imgBack;
+    TextView txtNameManager,txtContactManager,txtLocationManager;
 
+    SessonManager sessonManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,14 @@ public class ManagerActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         frameLayout = findViewById(R.id.frameLayout);
         imgBack = findViewById(R.id.imgBack);
+        txtNameManager = findViewById(R.id.txtNameManager);
+        txtContactManager = findViewById(R.id.txtContactManager);
+        txtLocationManager = findViewById(R.id.txtLocationManager);
+
+        sessonManager = new SessonManager(ManagerActivity.this);
+        txtNameManager.setText(sessonManager.getUserName());
+        txtLocationManager.setText(sessonManager.getLocation());
+        txtContactManager.setText("("+sessonManager.getMobile()+")");
 
         fragment = new TotalPurFragment();
         fragmentManager = getSupportFragmentManager();

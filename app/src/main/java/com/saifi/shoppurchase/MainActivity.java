@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         returnButton = findViewById(R.id.returnButton);
         txtLogout = findViewById(R.id.txtLogout);
         mainLaout = findViewById(R.id.mainLaout);
-        if (sessonManager.getUserType().equals("Manager")) {
+        if (sessonManager.getUserType().equalsIgnoreCase("Manager")) {
             managerButton.setVisibility(View.VISIBLE);
         } else {
             managerButton.setVisibility(View.GONE);

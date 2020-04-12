@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.saifi.shoppurchase.retrofitmodel.LoginModel;
 import com.saifi.shoppurchase.retrofitmodel.ShopModel;
 import com.saifi.shoppurchase.retrofitmodel.StatusModel;
+import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseStatusModel;
 
 import java.util.Map;
 
@@ -29,6 +30,10 @@ public interface ApiInterface {
     Call<StatusModel> hitStatusApi(@Field("key") String key, @Field("user_id") String id);
 
     @FormUrlEncoded
+    @POST("manager_purchase_list")
+    Call<PurchaseStatusModel> hitPurchaseListApi(@Field("key")String key,@Field("user_id")String userId, @Field("business_location_id")String buisnessId);
+
+    @FormUrlEncoded
     @POST("purchase_booking_new")
     Call<ShopModel> hitFinalShop(@Field("key") String key, @Field("order_no") String order, @Field("product_category") String product,
                                  @Field("storage") String gb, @Field("warrenty") String warranty,
@@ -45,5 +50,6 @@ public interface ApiInterface {
     @Multipart
     @POST("shop_purchase_uplode_image")
     Call<JsonObject> imageAPi(@Part MultipartBody.Part[] imageArray1, @PartMap() Map<String, RequestBody> partMap);
+
 
 }

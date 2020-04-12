@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     SessonManager sessonManager;
     Views views;
     RadioGroup radioLogin;
-    String UserType="";
+    String UserType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +68,9 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (editTextPassword.getText().toString().isEmpty()) {
                     editTextPassword.setError("Can't be Blank");
                     editTextPassword.requestFocus();
-                }
-                else if(UserType.equals("")){
+                } else if (UserType.equals("")) {
                     Toast.makeText(LoginActivity.this, "Please Select User or Managaer", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     hitApi();
                 }
 
@@ -89,11 +87,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton checkedButton = radioLogin.findViewById(i);
                 boolean checked = checkedButton.isChecked();
-                if(checked){
-                    if(checkedButton.getText().toString().equals("User")) {
+                if (checked) {
+                    if (checkedButton.getText().toString().equals("User")) {
                         UserType = "user";
                     }
-                    if(checkedButton.getText().toString().equals("Manager")) {
+                    if (checkedButton.getText().toString().equals("Manager")) {
                         UserType = "manager";
                     }
                 }
@@ -111,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         ApiInterface api = retrofit.create(ApiInterface.class);
 
         Call<LoginModel> call = api.hitLogin(Url.key, editTextMobile.getText().toString(),
-                editTextPassword.getText().toString(), "shop",UserType);
+                editTextPassword.getText().toString(), "shop", UserType);
 
         call.enqueue(new Callback<LoginModel>() {
             @Override
@@ -138,17 +136,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         finishAffinity();
-                    }
-                    else {
-                       // Gson gson = new GsonBuilder().create();
+                    } else {
+                        // Gson gson = new GsonBuilder().create();
 //                        ResponseError responseError = gson.fromJson(gson.toJson(loginModel.getMsg()),ResponseError.class);
-                        views.showToast(getApplicationContext(), ""+loginModel.getMsg());
+                        views.showToast(getApplicationContext(), "" + loginModel.getMsg());
                     }
-                }
-                else
-                {
+                } else {
                     Gson gson = new GsonBuilder().create();
-                    ResponseError responseError = gson.fromJson(response.errorBody().charStream(),ResponseError.class);
+                    ResponseError responseError = gson.fromJson(response.errorBody().charStream(), ResponseError.class);
                     views.showToast(getApplicationContext(), responseError.getMsg());
                 }
             }
