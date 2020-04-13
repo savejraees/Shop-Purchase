@@ -6,6 +6,7 @@ import com.saifi.shoppurchase.retrofitmodel.LoginModel;
 import com.saifi.shoppurchase.retrofitmodel.ShopModel;
 import com.saifi.shoppurchase.retrofitmodel.StatusModel;
 import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseStatusModel;
+import com.saifi.shoppurchase.retrofitmodel.managerStock.StockStstusModel;
 
 import java.util.Map;
 
@@ -32,6 +33,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("manager_purchase_list")
     Call<PurchaseStatusModel> hitPurchaseListApi(@Field("key")String key,@Field("user_id")String userId, @Field("business_location_id")String buisnessId);
+
+    @FormUrlEncoded
+    @POST("manager_stock_list")
+    Call<StockStstusModel> hitStockListApi(@Field("key")String key, @Field("user_id")String userId, @Field("business_location_id")String buisnessId);
 
     @FormUrlEncoded
     @POST("purchase_booking_new")

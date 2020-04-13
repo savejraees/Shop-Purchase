@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.StockFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="50dp"
+        android:layout_marginTop="20sp"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <SearchView
+
+            android:id="@+id/ImeiSearch"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="50dp"
+            android:queryHint="Search Here"
+            android:searchHintIcon="@android:color/white"
+            android:windowSoftInputMode="stateHidden"
+            android:background="@drawable/search_round"
+            android:iconifiedByDefault="false"
+            android:gravity="center"
+            android:inputType="text"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentTop="true" />
+
+        <ImageView
+            android:id="@+id/imgScan"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_scan"/>
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imeirecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"/>
+
+</LinearLayout>

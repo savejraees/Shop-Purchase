@@ -22,7 +22,7 @@ import com.saifi.shoppurchase.fragment.TotalPurFragment;
 import com.saifi.shoppurchase.util.NoScanResultException;
 import com.saifi.shoppurchase.util.ScanResultReceiver;
 
-public class ManagerActivity extends AppCompatActivity {
+public class ManagerActivity extends AppCompatActivity implements ScanResultReceiver{
 
     TabLayout tabLayout;
     FrameLayout frameLayout;
@@ -33,6 +33,7 @@ public class ManagerActivity extends AppCompatActivity {
     TextView txtNameManager,txtContactManager,txtLocationManager;
 
     SessonManager sessonManager;
+    public String barcode = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,4 +103,13 @@ public class ManagerActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void scanResultData(String codeFormat, String codeContent) {
+        barcode = codeContent;
+    }
+
+    @Override
+    public void scanResultData(NoScanResultException noScanData) {
+
+    }
 }
