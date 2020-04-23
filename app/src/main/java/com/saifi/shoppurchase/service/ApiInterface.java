@@ -6,6 +6,9 @@ import com.saifi.shoppurchase.retrofitmodel.LoginModel;
 import com.saifi.shoppurchase.retrofitmodel.ShopModel;
 import com.saifi.shoppurchase.retrofitmodel.StatusModel;
 import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseStatusModel;
+import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseWareHouseModel;
+import com.saifi.shoppurchase.retrofitmodel.managerReceived.ReceivedStatusModel;
+import com.saifi.shoppurchase.retrofitmodel.managerReceived.SubmitToStockModel;
 import com.saifi.shoppurchase.retrofitmodel.managerStock.StockStstusModel;
 
 import java.util.Map;
@@ -46,8 +49,8 @@ public interface ApiInterface {
                                  @Field("purchase_amount") String amount, @Field("customer_name") String name,
                                  @Field("customer_mobile") String mobile, @Field("customer_aadhar") String aadhar,
                                  @Field("remark") String remark, @Field("app_price") String app_Price,
-                                 @Field("brand_name") String brand, @Field("series_name") String series,
-                                 @Field("model_name") String model, @Field("userid") String userId,
+                                 @Field("brand_id") String brand, @Field("series_name") String series,
+                                 @Field("model_id") String model, @Field("userid") String userId,
                                  @Field("condition") String condition, @Field("exchange") String exchange,
                                  @Field("purchase_cat_name") String cat_name, @Field("business_location_id") String buisnessID,
                                  @Field("barcode_scan") String barcode);
@@ -56,5 +59,16 @@ public interface ApiInterface {
     @POST("shop_purchase_uplode_image")
     Call<JsonObject> imageAPi(@Part MultipartBody.Part[] imageArray1, @PartMap() Map<String, RequestBody> partMap);
 
+    @FormUrlEncoded
+    @POST("manager_subto_warehouse")
+    Call<PurchaseWareHouseModel> hitWareHouseApi(@Field("key") String key,@Field("phone_id")String phoneId,@Field("code") String code);
+
+    @FormUrlEncoded
+    @POST("manager_recive_today")
+    Call<ReceivedStatusModel> hitReceivedListApi(@Field("key")String key, @Field("user_id")String userId, @Field("business_location_id")String buisnessId);
+
+    @FormUrlEncoded
+    @POST("warehouse_subto_manager")
+    Call<SubmitToStockModel> hitWareHousetoManagerApi(@Field("key") String key, @Field("phone_id")String phoneId, @Field("code") String code);
 
 }

@@ -38,7 +38,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class StockFragment extends Fragment implements SearchView.OnQueryTextListener{
+public class StockFragment extends Fragment {
 
     public StockFragment() {
         // Required empty public constructor
@@ -58,102 +58,102 @@ public class StockFragment extends Fragment implements SearchView.OnQueryTextLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_stock, container, false);
-        views = new Views();
-        sessonManager = new SessonManager(getActivity());
-
-        imeirecyclerview = view.findViewById(R.id.imeirecyclerview);
-        ImeiSearch = view.findViewById(R.id.ImeiSearch);
-        imgScan = view.findViewById(R.id.imgScan);
-
-        hitImeiApi();
-        ImeiSearch.setOnQueryTextListener(this);
-        ImeiSearch.setQueryHint(Html.fromHtml("<font color = #ffffff>" +
-                getResources().getString(R.string.imeihint) + "</font>"));
-
-        imgScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ScanFragment scanFragment = new ScanFragment();
-                fragmentTransaction.add(R.id.frameLayout, scanFragment);
-                fragmentTransaction.commit();
-            }
-        });
+//        views = new Views();
+//        sessonManager = new SessonManager(getActivity());
+//
+//        imeirecyclerview = view.findViewById(R.id.imeirecyclerview);
+//        ImeiSearch = view.findViewById(R.id.ImeiSearch);
+//        imgScan = view.findViewById(R.id.imgScan);
+//
+//        hitImeiApi();
+//        ImeiSearch.setOnQueryTextListener(this);
+//        ImeiSearch.setQueryHint(Html.fromHtml("<font color = #ffffff>" +
+//                getResources().getString(R.string.imeihint) + "</font>"));
+//
+//        imgScan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                ScanFragment scanFragment = new ScanFragment();
+//                fragmentTransaction.add(R.id.frameLayout, scanFragment);
+//                fragmentTransaction.commit();
+//            }
+//        });
 
         return view;
     }
 
-    private void hitImeiApi() {
-        views.showProgress(getActivity());
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Url.BASE_URL)
-                .build();
-
-        ApiInterface api = retrofit.create(ApiInterface.class);
-
-        Call<StockStstusModel> call = api.hitStockListApi(Url.key,sessonManager.getToken(),sessonManager.getBuisnessLocationId());
-        call.enqueue(new Callback<StockStstusModel>() {
-            @Override
-            public void onResponse(Call<StockStstusModel> call, Response<StockStstusModel> response) {
-                views.hideProgress();
-                if(response.isSuccessful()){
-                    StockStstusModel stockStstusModel = response.body();
-                    listStock = stockStstusModel.getData();
-                    Log.d("silmo", String.valueOf(listStock));
-                    setRv();
-                    adapter.notifyDataSetChanged();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<StockStstusModel> call, Throwable t) {
-                views.hideProgress();
-            }
-        });
-    }
-
-    private void setRv() {
-        imeirecyclerview.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(getActivity(),1);
-        imeirecyclerview.setLayoutManager(layoutManager);
-        adapter = new StockAdapter(getActivity(),listStock);
-        imeirecyclerview.setAdapter(adapter);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        if(listStock.contains(s)){
-            adapter.getFilter().filter(s);
-        }
-
-        else {
-            Toast.makeText(getActivity(), "No Imei no. is Exist", Toast.LENGTH_SHORT).show();
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        if (s.length()>=1) {
-            adapter.getFilter().filter(s);
-        }
-        else{
-
-    }
-
-        return false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-         ImeiSearch.setQuery(((ManagerActivity) getActivity()).barcode, false);
-
-    }
+//    private void hitImeiApi() {
+//        views.showProgress(getActivity());
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .baseUrl(Url.BASE_URL)
+//                .build();
+//
+//        ApiInterface api = retrofit.create(ApiInterface.class);
+//
+//        Call<StockStstusModel> call = api.hitStockListApi(Url.key,sessonManager.getToken(),sessonManager.getBuisnessLocationId());
+//        call.enqueue(new Callback<StockStstusModel>() {
+//            @Override
+//            public void onResponse(Call<StockStstusModel> call, Response<StockStstusModel> response) {
+//                views.hideProgress();
+//                if(response.isSuccessful()){
+//                    StockStstusModel stockStstusModel = response.body();
+//                    listStock = stockStstusModel.getData();
+//                    Log.d("silmo", String.valueOf(listStock));
+//                    setRv();
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<StockStstusModel> call, Throwable t) {
+//                views.hideProgress();
+//            }
+//        });
+//    }
+//
+//    private void setRv() {
+//        imeirecyclerview.setHasFixedSize(true);
+//        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(getActivity(),1);
+//        imeirecyclerview.setLayoutManager(layoutManager);
+//        adapter = new StockAdapter(getActivity(),listStock);
+//        imeirecyclerview.setAdapter(adapter);
+//    }
+//
+//    @Override
+//    public boolean onQueryTextSubmit(String s) {
+//        if(listStock.contains(s)){
+//            adapter.getFilter().filter(s);
+//        }
+//
+//        else {
+//            Toast.makeText(getActivity(), "No Imei no. is Exist", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean onQueryTextChange(String s) {
+//        if (s.length()>=1) {
+//            adapter.getFilter().filter(s);
+//        }
+//        else{
+//
+//    }
+//
+//        return false;
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//         ImeiSearch.setQuery(((ManagerActivity) getActivity()).barcode, false);
+//
+//    }
 }

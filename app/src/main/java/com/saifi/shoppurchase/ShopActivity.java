@@ -78,7 +78,7 @@ public class ShopActivity extends AppCompatActivity implements
     Button finalSubmitButton, otpButton, otpSubmitButton;
     ImageView imgBacktoMAin;
     String warrenty = "", warrenty_month = "", productCategory = "", conditon_Mobile = "";
-    String brand_id = "", brandName = "", series_id = "", seriesName = "", idmodel = "", modelName = "";
+    String brand_id = "", brandName = "", series_id = "", seriesName = "", modelId = "", modelName = "";
     ModelAdapter modelAdapter;
     Views views = new Views();
     ImageView scanNow;
@@ -144,7 +144,7 @@ public class ShopActivity extends AppCompatActivity implements
                         series_id = "";
                         seriesName = "";
                         modelName = "";
-                        idmodel = "";
+                        modelId = "";
                     }
                 }
             }
@@ -298,7 +298,8 @@ public class ShopActivity extends AppCompatActivity implements
 
                 Model_Model modelObject = (Model_Model) parent.getItemAtPosition(position);
                 modelName = modelObject.getModelName();
-                idmodel = modelObject.getModel_id();
+                modelId = modelObject.getModel_id();
+                Log.d("asdsda",modelId);
             }
         });
 
@@ -449,7 +450,7 @@ public class ShopActivity extends AppCompatActivity implements
                 edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
                 edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
                 remark, edt_actualPrice.getText().toString(),
-                brandName, seriesName, modelName, userId, conditon_Mobile, editTextExchange.getText().toString(),
+                brand_id, seriesName, modelId, userId, conditon_Mobile, editTextExchange.getText().toString(),
                 "Shop Purchase", sessonManager.getBuisnessLocationId(), "");
 
 

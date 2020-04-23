@@ -1,9 +1,9 @@
-package com.saifi.shoppurchase.retrofitmodel.manager;
+package com.saifi.shoppurchase.retrofitmodel.managerReceived;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PurchaseDatum {
+public class ReceivedDatum {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -43,9 +43,6 @@ public class PurchaseDatum {
     @SerializedName("purchase_amount")
     @Expose
     private Integer purchaseAmount;
-    @SerializedName("name")
-    @Expose
-    private String name;
     @SerializedName("customer_name")
     @Expose
     private String customerName;
@@ -108,7 +105,7 @@ public class PurchaseDatum {
     private Integer businessLocationId;
     @SerializedName("device_shop_address_id")
     @Expose
-    private Object deviceShopAddressId;
+    private Integer deviceShopAddressId;
     @SerializedName("stock_check_status")
     @Expose
     private String stockCheckStatus;
@@ -118,6 +115,18 @@ public class PurchaseDatum {
     @SerializedName("device_shop_address_date")
     @Expose
     private String deviceShopAddressDate;
+    @SerializedName("managertowarehouse_date")
+    @Expose
+    private Object managertowarehouseDate;
+    @SerializedName("manager_recive_status")
+    @Expose
+    private String managerReciveStatus;
+    @SerializedName("manager_recive_date")
+    @Expose
+    private Object managerReciveDate;
+    @SerializedName("name")
+    @Expose
+    private String name;
 
     public Integer getId() {
         return id;
@@ -383,11 +392,11 @@ public class PurchaseDatum {
         this.businessLocationId = businessLocationId;
     }
 
-    public Object getDeviceShopAddressId() {
+    public Integer getDeviceShopAddressId() {
         return deviceShopAddressId;
     }
 
-    public void setDeviceShopAddressId(Object deviceShopAddressId) {
+    public void setDeviceShopAddressId(Integer deviceShopAddressId) {
         this.deviceShopAddressId = deviceShopAddressId;
     }
 
@@ -413,6 +422,30 @@ public class PurchaseDatum {
 
     public void setDeviceShopAddressDate(String deviceShopAddressDate) {
         this.deviceShopAddressDate = deviceShopAddressDate;
+    }
+
+    public Object getManagertowarehouseDate() {
+        return managertowarehouseDate;
+    }
+
+    public void setManagertowarehouseDate(Object managertowarehouseDate) {
+        this.managertowarehouseDate = managertowarehouseDate;
+    }
+
+    public String getManagerReciveStatus() {
+        return managerReciveStatus;
+    }
+
+    public void setManagerReciveStatus(String managerReciveStatus) {
+        this.managerReciveStatus = managerReciveStatus;
+    }
+
+    public Object getManagerReciveDate() {
+        return managerReciveDate;
+    }
+
+    public void setManagerReciveDate(Object managerReciveDate) {
+        this.managerReciveDate = managerReciveDate;
     }
 
     public String getName() {

@@ -8,18 +8,24 @@
     android:layout_height="200dp">
 
 
-
-    <EditText
-        android:id="@+id/editTextCode"
+    <TextView
         style="@style/modifiedEditText"
-        android:layout_width="match_parent"
-        android:hint="Enter The Code."
-        android:inputType="phone"
-        android:maxLines="1"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Barcode"
+        android:textColor="@android:color/black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/txtBarcodeToStock"
+        style="@style/modifiedEditText"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/black"
         android:textSize="17dp" />
 
     <Button
-        android:id="@+id/codeSubmitButton"
+        android:id="@+id/SubmitButtonReceived"
         style="@style/loginButton"
         android:text="Done"
         android:background="@drawable/login_shape_bk"

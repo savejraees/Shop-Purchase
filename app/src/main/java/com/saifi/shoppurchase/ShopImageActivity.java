@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
@@ -65,9 +67,9 @@ import retrofit2.Response;
 
 public class ShopImageActivity extends AppCompatActivity implements ScanResultReceiver {
 
-    String phoneId = "",imageCAtegory="";
+    String phoneId = "", imageCAtegory = "";
     Button btnBarCodeScan, selectInVoiceButton, selectMobileButton, selectCustomerButton;
-    Button uploadInVoiceButton, uploadMobileButton, uploadCustomerButton,finalImageButton;
+    Button uploadInVoiceButton, uploadMobileButton, uploadCustomerButton, finalImageButton;
     TextView txtBarcodeId;
     LinearLayout linearLayout;
     int PICK_IMAGE_MULTIPLE = 1;
@@ -76,8 +78,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
     File photoInvoiceFile = null;
     File photoMobileFile = null;
     File photoCustomerFile = null;
-    Uri photoUriInvoice,photoUriMobile,photoUriCustomer;
-    String mCurrentPhotoPathInvoice,mCurrentPhotoPathMobile,mCurrentPhotoPathCustomer;
+    Uri photoUriInvoice, photoUriMobile, photoUriCustomer;
+    String mCurrentPhotoPathInvoice, mCurrentPhotoPathMobile, mCurrentPhotoPathCustomer;
     private String photoPathMobile, photoPathCustomer, photoPathInVoice;
     ArrayList<String> imagePathListInvoice = new ArrayList<>();
     ArrayList<String> imagePathListMobile = new ArrayList<>();
@@ -85,11 +87,13 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
     ArrayList<ImageModel> Invoicelist = new ArrayList<>();
     ArrayList<ImageModel> Mobilelist = new ArrayList<>();
     ArrayList<ImageModel> Customerlist = new ArrayList<>();
-    String imageEncodedInvoice,imageEncodedMobile,imageEncodedCustomer;
-    RecyclerView rv_Invoice,rv_Mobile,rv_Customer;
+    String imageEncodedInvoice, imageEncodedMobile, imageEncodedCustomer;
+    RecyclerView rv_Invoice, rv_Mobile, rv_Customer;
     public MobileImageAdapter mIMGAdapter;
-    Bitmap bitmapInVoice,bitmapMobile,bitmapCustomer;
+    Bitmap bitmapInVoice, bitmapMobile, bitmapCustomer;
     Views views;
+
+    boolean upload = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +136,14 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         finalImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ShopImageActivity.this,MainActivity.class));
-                Toast.makeText(ShopImageActivity.this, "Ok Done!", Toast.LENGTH_SHORT).show();
-                finishAffinity();
+                if (upload == true) {
+                    startActivity(new Intent(ShopImageActivity.this, MainActivity.class));
+                    Toast.makeText(ShopImageActivity.this, "Ok Done!", Toast.LENGTH_SHORT).show();
+                    finishAffinity();
+                } else {
+                    Toast.makeText(ShopImageActivity.this, "Please Upload Image", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -221,6 +230,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 });
 
     }
+
     private void hitApiUploadMobile() {
 
         views.showProgress(ShopImageActivity.this);
@@ -229,6 +239,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         partMap.put("shop_purchase_id", ApiFactory.getRequestBodyFromString(phoneId));
         partMap.put("barcode_scan", ApiFactory.getRequestBodyFromString(txtBarcodeId.getText().toString()));
         partMap.put("image_category", ApiFactory.getRequestBodyFromString(imageCAtegory));
+
+        Log.d("zasdplm", String.valueOf(txtBarcodeId.getText().toString()));
 
         MultipartBody.Part[] imageArrayInvoice = new MultipartBody.Part[imagePathListMobile.size()];
 
@@ -259,6 +271,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                             JsonObject jsonObject = response.body();
 
                             if (jsonObject.get("code").getAsString().equals("200")) {
+                                upload = true;
                                 views.showToast(ShopImageActivity.this, jsonObject.get("msg").getAsString());
                             } else {
                                 views.showToast(ShopImageActivity.this, jsonObject.get("msg").getAsString());
@@ -280,6 +293,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 });
 
     }
+
     private void hitApiUploadCustomer() {
 
         views.showProgress(ShopImageActivity.this);
@@ -318,6 +332,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                             JsonObject jsonObject = response.body();
 
                             if (jsonObject.get("code").getAsString().equals("200")) {
+                                upload = true;
                                 views.showToast(ShopImageActivity.this, jsonObject.get("msg").getAsString());
                             } else {
                                 views.showToast(ShopImageActivity.this, jsonObject.get("msg").getAsString());
@@ -344,7 +359,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         selectInVoiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (txtBarcodeId.getText().toString().equals("0")) {
+                if (txtBarcodeId.getText().toString().equals("0") || txtBarcodeId.getText().toString().equals("")) {
                     Toast.makeText(ShopImageActivity.this, "Please Scan BarCode", Toast.LENGTH_SHORT).show();
                 } else {
                     count = 1;
@@ -426,6 +441,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         });
         myAlertDialog.show();
     }
+
     private void startDialogMobile() {
 
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
@@ -466,6 +482,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         });
         myAlertDialog.show();
     }
+
     private void startDialogCustomer() {
 
         AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
@@ -526,6 +543,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         }
 
     }
+
     private void takeMobileCameraImg() throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -545,6 +563,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         }
 
     }
+
     private void takeCustomerCameraImg() throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -579,6 +598,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         Log.d("lsdplo", mCurrentPhotoPathInvoice);
         return image;
     }
+
     private File createImageFileMobile() throws IOException {
         String imageFileName = "GOOGLES" + System.currentTimeMillis();
         String storageDir = Environment.getExternalStorageDirectory() + "/skImages";
@@ -594,6 +614,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         Log.d("lsdplo", mCurrentPhotoPathMobile);
         return image;
     }
+
     private File createImageFileCustomer() throws IOException {
         String imageFileName = "GOOGLES" + System.currentTimeMillis();
         String storageDir = Environment.getExternalStorageDirectory() + "/skImages";
@@ -637,6 +658,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
 
         }
     }
+
     public void rotateImageMobile() throws IOException {
 
         try {
@@ -664,6 +686,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
 
         }
     }
+
     public void rotateImageCustomer() throws IOException {
 
         try {
@@ -702,14 +725,16 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
             if (requestCode == 2 && count == 1) {
                 rotateImageInvoice();
             }
-            if(requestCode==1 && count==2){
+            if (requestCode == 1 && count == 2) {
                 selectFromGalleryMobile(data);
-            } if(requestCode==2 && count==2){
+            }
+            if (requestCode == 2 && count == 2) {
                 rotateImageMobile();
             }
-            if(requestCode==1 && count==3){
+            if (requestCode == 1 && count == 3) {
                 selectFromGalleryCustomer(data);
-            } if(requestCode==2 && count==3){
+            }
+            if (requestCode == 2 && count == 3) {
                 rotateImageCustomer();
             }
         } catch (Exception e) {
@@ -784,6 +809,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         }
 
     }
+
     private void selectFromGalleryMobile(Intent data) {
         if (data != null) {
             try {
@@ -851,6 +877,7 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
         }
 
     }
+
     private void selectFromGalleryCustomer(Intent data) {
         if (data != null) {
             try {
