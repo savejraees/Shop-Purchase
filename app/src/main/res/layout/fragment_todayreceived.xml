@@ -4,7 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="10dp"
     tools:context=".fragment.Today_ReceivedFragment">
+
+    <TextView
+        android:id="@+id/txtBar"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_receive"
@@ -12,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="70dp"
         android:layout_marginLeft="10dp"/>
 
 </LinearLayout>

@@ -66,67 +66,67 @@ public class TotalAdapter extends RecyclerView.Adapter<TotalAdapter.TotalHolder>
         holder.txtBarcode.setText("Barcode no : " + totalModel.getBarcodeScan() );
 
 
-        holder.wareHouseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final int phoneId = totalModel.getId();
-                final int position = holder.getAdapterPosition();
-
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.warehouse_dialog);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(false);
-                final EditText editTextCode = dialog.findViewById(R.id.editTextCode);
-                Button codeSubmitButton = dialog.findViewById(R.id.codeSubmitButton);
-                dialog.show();
-
-                codeSubmitButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (editTextCode.getText().toString().isEmpty()) {
-                            editTextCode.setError("Please enter code");
-                            editTextCode.requestFocus();
-                        } else {
-                            dialog.dismiss();
-                            hitApiWarehouse(phoneId, editTextCode.getText().toString(), position);
-                        }
-                    }
-                });
-
-            }
-        });
+//        holder.wareHouseButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final int phoneId = totalModel.getId();
+//                final int position = holder.getAdapterPosition();
+//
+//                final Dialog dialog = new Dialog(context);
+//                dialog.setContentView(R.layout.warehouse_dialog);
+//                dialog.setCanceledOnTouchOutside(false);
+//                dialog.setCancelable(false);
+//                final EditText editTextCode = dialog.findViewById(R.id.editTextCode);
+//                Button codeSubmitButton = dialog.findViewById(R.id.codeSubmitButton);
+//                dialog.show();
+//
+//                codeSubmitButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if (editTextCode.getText().toString().isEmpty()) {
+//                            editTextCode.setError("Please enter code");
+//                            editTextCode.requestFocus();
+//                        } else {
+//                            dialog.dismiss();
+//                            hitApiWarehouse(phoneId, editTextCode.getText().toString(), position);
+//                        }
+//                    }
+//                });
+//
+//            }
+//        });
     }
 
-    private void hitApiWarehouse(int phoneId, String code, final int pos) {
-        views.showProgress(context);
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Url.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
-
-        ApiInterface api = retrofit.create(ApiInterface.class);
-        Call<PurchaseWareHouseModel> call = api.hitWareHouseApi(Url.key, String.valueOf(phoneId), code);
-        call.enqueue(new Callback<PurchaseWareHouseModel>() {
-            @Override
-            public void onResponse(Call<PurchaseWareHouseModel> call, Response<PurchaseWareHouseModel> response) {
-                views.hideProgress();
-                if (response.isSuccessful()) {
-                    PurchaseWareHouseModel model = response.body();
-
-                    if(model.getCode().equals("200")){
-                        views.showToast(context, model.getMsg());
-                        removeItem(pos);
-                    }else {
-                        views.showToast(context, model.getMsg());
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PurchaseWareHouseModel> call, Throwable t) {
-                views.hideProgress();
-                views.showToast(context, t.getMessage());
-            }
-        });
-    }
+//    private void hitApiWarehouse(int phoneId, String code, final int pos) {
+//        views.showProgress(context);
+//        Retrofit retrofit = new Retrofit.Builder().baseUrl(Url.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+//
+//        ApiInterface api = retrofit.create(ApiInterface.class);
+//        Call<PurchaseWareHouseModel> call = api.hitWareHouseApi(Url.key, String.valueOf(phoneId), code);
+//        call.enqueue(new Callback<PurchaseWareHouseModel>() {
+//            @Override
+//            public void onResponse(Call<PurchaseWareHouseModel> call, Response<PurchaseWareHouseModel> response) {
+//                views.hideProgress();
+//                if (response.isSuccessful()) {
+//                    PurchaseWareHouseModel model = response.body();
+//
+//                    if(model.getCode().equals("200")){
+//                        views.showToast(context, model.getMsg());
+//                        removeItem(pos);
+//                    }else {
+//                        views.showToast(context, model.getMsg());
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PurchaseWareHouseModel> call, Throwable t) {
+//                views.hideProgress();
+//                views.showToast(context, t.getMessage());
+//            }
+//        });
+//    }
 
     public void removeItem(int position) {
         list.remove(position);
@@ -148,6 +148,7 @@ public class TotalAdapter extends RecyclerView.Adapter<TotalAdapter.TotalHolder>
         public TotalHolder(@NonNull View itemView) {
             super(itemView);
             wareHouseButton = itemView.findViewById(R.id.wareHouseButton);
+            wareHouseButton.setVisibility(View.GONE);
             txtBrand = itemView.findViewById(R.id.txtBrand);
             txtModel = itemView.findViewById(R.id.txtModel);
             txtGB = itemView.findViewById(R.id.txtGB);

@@ -9,21 +9,48 @@
 
 
 
-    <EditText
-        android:id="@+id/editTextCode"
-        style="@style/modifiedEditText"
-        android:layout_width="match_parent"
-        android:hint="Enter The Code."
-        android:inputType="phone"
-        android:maxLines="1"
-        android:textSize="17dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"
+        android:textStyle="italic"
+        android:text="Do You want to submit Your Phone with this barcode?"></TextView>
 
-    <Button
-        android:id="@+id/codeSubmitButton"
-        style="@style/loginButton"
-        android:text="Done"
-        android:background="@drawable/login_shape_bk"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/loginViewsMargin" />
+    <TextView
+        android:id="@+id/txtBarcodeSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:text=""></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/codecancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@android:color/white"
+            android:background="@drawable/loginbuttonshape"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/codeSubmitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Yes"
+            android:textColor="@android:color/white"
+            android:background="@drawable/loginbuttonshape"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
 
 </LinearLayout>

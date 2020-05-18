@@ -9,6 +9,7 @@ import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseStatusModel;
 import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseWareHouseModel;
 import com.saifi.shoppurchase.retrofitmodel.managerReceived.ReceivedStatusModel;
 import com.saifi.shoppurchase.retrofitmodel.managerReceived.SubmitToStockModel;
+import com.saifi.shoppurchase.retrofitmodel.managerStock.StockMatch;
 import com.saifi.shoppurchase.retrofitmodel.managerStock.StockStstusModel;
 
 import java.util.Map;
@@ -71,4 +72,17 @@ public interface ApiInterface {
     @POST("warehouse_subto_manager")
     Call<SubmitToStockModel> hitWareHousetoManagerApi(@Field("key") String key, @Field("phone_id")String phoneId, @Field("code") String code);
 
+    @FormUrlEncoded
+    @POST("manager_stock_list")
+    Call<StockStstusModel> hitAllStockApi(@Field("key") String key, @Field("page") String page, @Field("business_location_id") String business_location_id);
+
+    @FormUrlEncoded
+    @POST("manager_stock_list")
+    Call<StockStstusModel> hitAllStockSearchApi(@Field("key") String key, @Field("page") String page,
+                                                @Field("business_location_id") String business_location_id,@Field("search") String search);
+
+
+    @FormUrlEncoded
+    @POST("manager_match_stock")
+    Call<StockMatch> hitMatchStock(@Field("key") String key, @Field("phone_id") String phoneId);
 }

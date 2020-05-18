@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragment.StockFragment">
 
@@ -10,37 +11,69 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20sp"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <SearchView
-
-            android:id="@+id/ImeiSearch"
-            android:layout_gravity="center_horizontal"
+        <EditText
+            android:id="@+id/edtsearchStock"
             android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5sp"
+            android:layout_marginRight="5dp"
             android:layout_weight="8"
-            android:layout_height="50dp"
-            android:queryHint="Search Here"
-            android:searchHintIcon="@android:color/white"
-            android:windowSoftInputMode="stateHidden"
+            android:focusable="false"
             android:background="@drawable/search_round"
-            android:iconifiedByDefault="false"
-            android:gravity="center"
+            android:clickable="false"
+            android:hint="Search Here"
             android:inputType="text"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentTop="true" />
+            android:paddingLeft="5dp"
+            android:searchHintIcon="@android:color/white"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
 
         <ImageView
-            android:id="@+id/imgScan"
+            android:id="@+id/imgScanStock"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_scan"/>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtClearStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="2dp"
+            android:text="Clear"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/txtTotalItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="2dp"
+            android:text="Total"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imeirecyclerview"
+        android:id="@+id/rvStock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

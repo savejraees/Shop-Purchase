@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class StockDatum {
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -96,25 +97,43 @@ public class StockDatum {
     private Object exchange;
     @SerializedName("barcode_scan")
     @Expose
-    private Object barcodeScan;
+    private String barcodeScan;
     @SerializedName("category_type")
     @Expose
     private Object categoryType;
     @SerializedName("business_location_id")
     @Expose
     private Object businessLocationId;
-    @SerializedName("device_shop_address_id")
-    @Expose
-    private Integer deviceShopAddressId;
     @SerializedName("stock_check_status")
     @Expose
     private String stockCheckStatus;
     @SerializedName("stock_check_date")
     @Expose
     private Object stockCheckDate;
+    @SerializedName("device_shop_address_id")
+    @Expose
+    private Integer deviceShopAddressId;
     @SerializedName("device_shop_address_date")
     @Expose
     private String deviceShopAddressDate;
+    @SerializedName("managertowarehouse_date")
+    @Expose
+    private Object managertowarehouseDate;
+    @SerializedName("manager_recive_status")
+    @Expose
+    private Object managerReciveStatus;
+    @SerializedName("manager_recive_date")
+    @Expose
+    private Object managerReciveDate;
+    @SerializedName("dealer_id")
+    @Expose
+    private Integer dealerId;
+    @SerializedName("image_status")
+    @Expose
+    private Integer imageStatus;
+    @SerializedName("name")
+    @Expose
+    private Object name;
 
     public Integer getId() {
         return id;
@@ -356,11 +375,11 @@ public class StockDatum {
         this.exchange = exchange;
     }
 
-    public Object getBarcodeScan() {
+    public String getBarcodeScan() {
         return barcodeScan;
     }
 
-    public void setBarcodeScan(Object barcodeScan) {
+    public void setBarcodeScan(String barcodeScan) {
         this.barcodeScan = barcodeScan;
     }
 
@@ -380,14 +399,6 @@ public class StockDatum {
         this.businessLocationId = businessLocationId;
     }
 
-    public Integer getDeviceShopAddressId() {
-        return deviceShopAddressId;
-    }
-
-    public void setDeviceShopAddressId(Integer deviceShopAddressId) {
-        this.deviceShopAddressId = deviceShopAddressId;
-    }
-
     public String getStockCheckStatus() {
         return stockCheckStatus;
     }
@@ -404,11 +415,67 @@ public class StockDatum {
         this.stockCheckDate = stockCheckDate;
     }
 
+    public Integer getDeviceShopAddressId() {
+        return deviceShopAddressId;
+    }
+
+    public void setDeviceShopAddressId(Integer deviceShopAddressId) {
+        this.deviceShopAddressId = deviceShopAddressId;
+    }
+
     public String getDeviceShopAddressDate() {
         return deviceShopAddressDate;
     }
 
     public void setDeviceShopAddressDate(String deviceShopAddressDate) {
         this.deviceShopAddressDate = deviceShopAddressDate;
+    }
+
+    public Object getManagertowarehouseDate() {
+        return managertowarehouseDate;
+    }
+
+    public void setManagertowarehouseDate(Object managertowarehouseDate) {
+        this.managertowarehouseDate = managertowarehouseDate;
+    }
+
+    public Object getManagerReciveStatus() {
+        return managerReciveStatus;
+    }
+
+    public void setManagerReciveStatus(Object managerReciveStatus) {
+        this.managerReciveStatus = managerReciveStatus;
+    }
+
+    public Object getManagerReciveDate() {
+        return managerReciveDate;
+    }
+
+    public void setManagerReciveDate(Object managerReciveDate) {
+        this.managerReciveDate = managerReciveDate;
+    }
+
+    public Integer getDealerId() {
+        return dealerId;
+    }
+
+    public void setDealerId(Integer dealerId) {
+        this.dealerId = dealerId;
+    }
+
+    public Integer getImageStatus() {
+        return imageStatus;
+    }
+
+    public void setImageStatus(Integer imageStatus) {
+        this.imageStatus = imageStatus;
+    }
+
+    public Object getName() {
+        return name;
+    }
+
+    public void setName(Object name) {
+        this.name = name;
     }
 }

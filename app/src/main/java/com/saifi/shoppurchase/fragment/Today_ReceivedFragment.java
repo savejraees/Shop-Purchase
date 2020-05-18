@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Api;
+import com.saifi.shoppurchase.MainActivity;
 import com.saifi.shoppurchase.ManagerActivity;
 import com.saifi.shoppurchase.R;
 import com.saifi.shoppurchase.constants.SessonManager;
@@ -57,6 +58,8 @@ public class Today_ReceivedFragment extends Fragment {
     String barcodeReceived;
     ArrayList<ReceivedDatum> listReceived;
 
+    TextView txtBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class Today_ReceivedFragment extends Fragment {
         rv_receive = view.findViewById(R.id.rv_receive);
         sessonManager = new SessonManager(getActivity());
         views = new Views();
+        txtBar = view.findViewById(R.id.txtBar);
 
         hitApi();
         return view;
@@ -113,9 +117,16 @@ public class Today_ReceivedFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        ((ManagerActivity)getActivity()).barcode="";
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        if (((ManagerActivity) getActivity()).barcode.equals("")) {
+        txtBar.setText(((ManagerActivity) getActivity()).barcode);
+        if (txtBar.getText().toString().equals("")) {
 
         } else {
             Log.d("abcdef", ((ManagerActivity) getActivity()).barcode);
