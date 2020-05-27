@@ -66,22 +66,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ShopActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener, ScanResultReceiver {
 
-    RadioGroup radioShop, radioWarranty;
-    RadioButton radioAccesories;
+    RadioGroup radioShop, radioWarranty,radioCash;
+    RadioButton radioAccesories,radioBtnCash,radioBtnBank;
     CheckBox chkExchange;
-    EditText editTextExchange, edt_imei, edit_Brand, edt_model, edt_remarks, edt_actualPrice, edt_customer_aadhar;
-    EditText editTextOrder, edt_gb, edt_purchase_amount, edt_customer_name, edt_customer_mobile, editTextOtp;
+    EditText editTextExchange, edt_imei, edit_Brand, edt_model, edt_remarks, edt_actualPrice, edt_customer_aadhar,editExchangeAmount;
+    EditText editTextOrder, edt_gb, edt_purchase_amount, edt_customer_name, edt_customer_mobile, editTextOtp,editCash;
     TextInputLayout textInputExchange;
     LinearLayout layoutAccesother, layoutMobTab;
     Spinner Warranty_spinner, spinnerSeries, spinnerBrandMobile, condition_spinner;
     AutoCompleteTextView model_autocompleteTv;
     Button finalSubmitButton, otpButton, otpSubmitButton;
     ImageView imgBacktoMAin;
-    String warrenty = "", warrenty_month = "", productCategory = "", conditon_Mobile = "";
+    String warrenty = "", warrenty_month = "", productCategory = "", conditon_Mobile = "",cash="0",bank="0";
     String brand_id = "", brandName = "", series_id = "", seriesName = "", modelId = "", modelName = "";
     ModelAdapter modelAdapter;
     Views views = new Views();
     ImageView scanNow;
+    LinearLayout linearExchange;
     TextView txtOtpContact, txtResend, txtName, txtContactShop, txtLocation;
     ArrayList<BrandSpinner> brand_list = new ArrayList<>();
     final ArrayList<String> brand_list_datamobile = new ArrayList();
@@ -89,6 +90,7 @@ public class ShopActivity extends AppCompatActivity implements
     final ArrayList<String> series_list_dataSeries = new ArrayList();
     ArrayList<Model_Model> model_list = new ArrayList<>();
     String remark = "";
+    Call<ShopModel> call;
 
     String Warranty_data[] = {
             "0 - 1 month old",
@@ -185,16 +187,42 @@ public class ShopActivity extends AppCompatActivity implements
                 }
             }
         });
+        radioCash.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedRadioButton = radioGroup.findViewById(i);
+                boolean checked = checkedRadioButton.isChecked();
+                if (checked) {
+                    if (checkedRadioButton.getText().toString().equals("Cash")) {
+                        Toast.makeText(getApplicationContext(), "cash", Toast.LENGTH_SHORT).show();
+                        cash = editCash.getText().toString();
+                        bank="0";
+                        }
+
+
+                    if (checkedRadioButton.getText().toString().equals("Bank")) {
+
+                            Toast.makeText(getApplicationContext(), "bank", Toast.LENGTH_SHORT).show();
+                            bank = editCash.getText().toString();
+                            cash="0";
+
+                    }
+
+                }
+            }
+        });
 
         chkExchange.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 b = chkExchange.isChecked();
                 if (b) {
-                    textInputExchange.setVisibility(View.VISIBLE);
+                    linearExchange.setVisibility(View.VISIBLE);
                 } else {
-                    textInputExchange.setVisibility(View.GONE);
-                    editTextExchange.setText("");
+                    linearExchange.setVisibility(View.GONE);
+//                    radioCash.clearCheck();
+                    editTextExchange.getText().clear();
+                    editExchangeAmount.getText().clear();
                 }
 
             }
@@ -212,21 +240,23 @@ public class ShopActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 // startActivity(new Intent(getApplicationContext(), ShopImageActivity.class));
+
+
+
                 if (radioAccesories.isChecked()) {
                     brand_id = edit_Brand.getText().toString();
                     modelId = edt_model.getText().toString();
                 }
+                if(brand_id.equals("")){
+                    Toast.makeText(ShopActivity.this, "Please Select Mobile, Tablet or Accessories", Toast.LENGTH_SHORT).show();
+                }
 
 
-                if (editTextOrder.getText().toString().isEmpty()) {
+               else if (editTextOrder.getText().toString().isEmpty()) {
                     editTextOrder.setError("Please enter Order no.");
                     editTextOrder.requestFocus();
                 }
-//                else if (brandName.equals("") || brandName.isEmpty()) {
-//                    Toast.makeText(ShopActivity.this, "Please enter brand", Toast.LENGTH_SHORT).show();
-//                } else if (modelName.equals("") || modelName.isEmpty()) {
-//                    Toast.makeText(ShopActivity.this, "Please enter Model", Toast.LENGTH_SHORT).show();
-//                }
+
                 else if (edt_gb.getText().toString().isEmpty()) {
                     edt_gb.setError("Please enter GB");
                     edt_gb.requestFocus();
@@ -389,6 +419,7 @@ public class ShopActivity extends AppCompatActivity implements
     private void init() {
         radioShop = findViewById(R.id.radioShop);
         radioWarranty = findViewById(R.id.radioWarranty);
+        radioCash = findViewById(R.id.radioCash);
         layoutAccesother = findViewById(R.id.layoutAccesother);
         layoutMobTab = findViewById(R.id.layoutMobTab);
         Warranty_spinner = findViewById(R.id.Warranty_spinner);
@@ -411,9 +442,14 @@ public class ShopActivity extends AppCompatActivity implements
         spinnerBrandMobile = findViewById(R.id.spinnerBrandMobile);
         spinnerSeries = findViewById(R.id.spinnerSeries);
         radioAccesories = findViewById(R.id.radioAccesories);
+        radioBtnCash = findViewById(R.id.radioBtnCash);
+        radioBtnBank = findViewById(R.id.radioBtnBank);
         edit_Brand = findViewById(R.id.edit_Brand);
         edt_model = findViewById(R.id.edt_model);
         txtName = findViewById(R.id.txtNameShop);
+        editCash = findViewById(R.id.editCash);
+        editExchangeAmount = findViewById(R.id.editExchangeAmount);
+        linearExchange = findViewById(R.id.linearExchange);
         txtContactShop = findViewById(R.id.txtContactShop);
         scanNow = findViewById(R.id.scanNow);
         model_autocompleteTv = findViewById(R.id.model_autocompleteTv);
@@ -442,41 +478,107 @@ public class ShopActivity extends AppCompatActivity implements
             remark = edt_remarks.getText().toString();
         }
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(Url.BASE_URL)
-                .build();
-        ApiInterface api = retrofit.create(ApiInterface.class);
-        Call<ShopModel> call = api.hitFinalShop(Url.key, editTextOrder.getText().toString(), productCategory,
-                edt_gb.getText().toString(), warrenty, warrenty_month, edt_imei.getText().toString(),
-                edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
-                edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
-                remark, edt_actualPrice.getText().toString(),
-                brand_id, seriesName, modelId, userId, conditon_Mobile, editTextExchange.getText().toString(),
-                "Shop Purchase", sessonManager.getBuisnessLocationId(), "");
+        if(chkExchange.isChecked()){
 
-
-        call.enqueue(new Callback<ShopModel>() {
-            @Override
-            public void onResponse(Call<ShopModel> call, Response<ShopModel> response) {
+            if (editExchangeAmount.getText().toString().isEmpty()){
                 views.hideProgress();
-                if (response.isSuccessful()) {
-                    ShopModel model = response.body();
-                    if (model.getCode().equals("200")) {
-                        views.showToast(ShopActivity.this, model.getMsg());
-                        startActivity(new Intent(ShopActivity.this, ShopImageActivity.class)
-                                .putExtra("phoneId", model.getPhoneId()));
-                    } else {
-                        views.showToast(ShopActivity.this, model.getMsg());
+                editExchangeAmount.setError("Please Enter sale Amount");
+                editExchangeAmount.requestFocus();
+
+            }
+            else if (editCash.getText().toString().isEmpty()){
+                views.hideProgress();
+                editCash.setError("Please Enter cash or bank amount");
+                editCash.requestFocus();
+
+            }
+            else {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl(Url.BASE_URL)
+                        .build();
+                ApiInterface api = retrofit.create(ApiInterface.class);
+
+                call = api.hitFinalShopWithExchange(Url.key, editTextOrder.getText().toString(), productCategory,
+                        edt_gb.getText().toString(), warrenty, warrenty_month, edt_imei.getText().toString(),
+                        edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
+                        edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
+                        remark, edt_actualPrice.getText().toString(),
+                        brand_id, seriesName, modelId, userId, conditon_Mobile, editTextExchange.getText().toString(),
+                        "Shop Purchase", sessonManager.getBuisnessLocationId(), "",
+                        cash,bank,editExchangeAmount.getText().toString());
+
+                call.enqueue(new Callback<ShopModel>() {
+                    @Override
+                    public void onResponse(Call<ShopModel> call, Response<ShopModel> response) {
+                        views.hideProgress();
+                        if (response.isSuccessful()) {
+                            ShopModel model = response.body();
+                            if (model.getCode().equals("200")) {
+                                views.showToast(ShopActivity.this, model.getMsg());
+                                startActivity(new Intent(ShopActivity.this, ShopImageActivity.class)
+                                        .putExtra("phoneId", model.getPhoneId()));
+                            } else {
+                                views.showToast(ShopActivity.this, model.getMsg());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ShopModel> call, Throwable t) {
+                        views.hideProgress();
+                        Toast.makeText(ShopActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("hgggggggggggg",t.getMessage());
+                    }
+                });
+            }
+
+        }
+        else {
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(Url.BASE_URL)
+                    .build();
+            ApiInterface api = retrofit.create(ApiInterface.class);
+
+            call = api.hitFinalShop(Url.key, editTextOrder.getText().toString(), productCategory,
+                    edt_gb.getText().toString(), warrenty, warrenty_month, edt_imei.getText().toString(),
+                    edt_purchase_amount.getText().toString(), edt_customer_name.getText().toString(),
+                    edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
+                    remark, edt_actualPrice.getText().toString(),
+                    brand_id, seriesName, modelId, userId, conditon_Mobile, editTextExchange.getText().toString(),
+                    "Shop Purchase", sessonManager.getBuisnessLocationId(), "");
+
+            call.enqueue(new Callback<ShopModel>() {
+                @Override
+                public void onResponse(Call<ShopModel> call, Response<ShopModel> response) {
+                    views.hideProgress();
+                    if (response.isSuccessful()) {
+                        ShopModel model = response.body();
+                        if (model.getCode().equals("200")) {
+                            views.showToast(ShopActivity.this, model.getMsg());
+                            startActivity(new Intent(ShopActivity.this, ShopImageActivity.class)
+                                    .putExtra("phoneId", model.getPhoneId()));
+                        } else {
+                            views.showToast(ShopActivity.this, model.getMsg());
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ShopModel> call, Throwable t) {
-                views.hideProgress();
-            }
-        });
+                @Override
+                public void onFailure(Call<ShopModel> call, Throwable t) {
+                    views.hideProgress();
+                    Toast.makeText(ShopActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+               Log.d("hgggggggggggg",t.getMessage());
+                }
+            });
+        }
+
+
+
+
+
     }
 
     //////////////////////////////////////////Brand Spinner /////////////////////////////////////

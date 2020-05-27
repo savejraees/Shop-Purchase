@@ -34,7 +34,7 @@
             android:layout_toLeftOf="@+id/txtLocation"
             android:text=""
             android:textColor="@android:color/white"
-            android:textSize="18dp"/>
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/txtContactShop"
@@ -45,7 +45,7 @@
             android:layout_toLeftOf="@+id/txtLocation"
             android:text=""
             android:textColor="@android:color/white"
-            android:textSize="18dp"/>
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/txtLocation"
@@ -55,9 +55,7 @@
             android:drawableLeft="@drawable/ic_location"
             android:text=""
             android:textColor="@android:color/white"
-            android:textSize="18dp"/>
-
-
+            android:textSize="18dp" />
 
 
     </LinearLayout>
@@ -76,19 +74,19 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/scan_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/scan_fragment"
                 android:paddingBottom="50dp">
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/scan_fragment"-->
-<!--                    android:orientation="vertical">-->
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:id="@+id/scan_fragment"-->
+                <!--                    android:orientation="vertical">-->
 
-<!--                </LinearLayout>-->
+                <!--                </LinearLayout>-->
 
                 <RadioGroup
                     android:id="@+id/radioShop"
@@ -134,32 +132,102 @@
                     android:textSize="17dp">
 
                 </CheckBox>
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/parent"
+
+                <LinearLayout
+                    android:id="@+id/linearExchange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:id="@+id/textInputExchange"
-                    android:layout_marginTop="@dimen/signup_text_margin_top">
-                    <EditText
-                        android:id="@+id/editTextExchange"
-                        style="@style/modifiedEditText"
-                        android:maxLines="1"
-                        android:textColor="#000"
-                        android:textColorHint="#433F3F"
-                        android:textSize="17dp"
-                        android:hint="Exchange no."/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputExchange"
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/signup_text_margin_top">
+
+                        <EditText
+                            android:id="@+id/editTextExchange"
+                            style="@style/modifiedEditText"
+                            android:hint="Exchange no."
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textColorHint="#433F3F"
+                            android:textSize="17dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/signup_text_margin_top">
+
+                        <EditText
+                            android:id="@+id/editExchangeAmount"
+                            style="@style/modifiedEditText"
+                            android:hint="Sale Amount."
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:inputType="number"
+                            android:textColorHint="#433F3F"
+                            android:textSize="17dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <RadioGroup
+                        android:id="@+id/radioCash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioBtnCash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cash"
+                            android:textSize="17dp" />
+
+
+                        <RadioButton
+                            android:id="@+id/radioBtnBank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Bank"
+                            android:textSize="17dp" />
+
+
+                    </RadioGroup>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/parent"
+                        android:layout_marginTop="@dimen/signup_text_margin_top">
+
+                        <EditText
+                            android:id="@+id/editCash"
+                            style="@style/modifiedEditText"
+                            android:hint="Enter cash or bank amount"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:inputType="number"
+                            android:textColorHint="#433F3F"
+                            android:textSize="17dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
                     android:layout_marginTop="@dimen/signup_text_margin_top">
+
                     <EditText
                         android:id="@+id/editTextOrder"
                         style="@style/modifiedEditText"
+                        android:hint="Order no."
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="#000"
                         android:textColorHint="#433F3F"
-                        android:textSize="17dp"
-                        android:singleLine="true"
-                        android:hint="Order no."/>
+                        android:textSize="17dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -167,8 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                   >
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/parent"
@@ -179,11 +246,11 @@
                             style="@style/modifiedEditText"
                             android:hint="Brand"
                             android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="#000"
                             android:textColorHint="#433F3F"
-                            android:textSize="17dp"
-                            android:singleLine="true"
-                            android:maxLines="1" />
+                            android:textSize="17dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -195,14 +262,15 @@
                             android:id="@+id/edt_model"
                             style="@style/modifiedEditText"
                             android:hint="Model"
+                            android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="#000"
                             android:textColorHint="#433F3F"
-                            android:textSize="17dp"
-                            android:singleLine="true"
-                            android:maxLines="1" />
+                            android:textSize="17dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/layoutMobTab"
                     android:layout_width="match_parent"
@@ -249,6 +317,7 @@
                         android:background="@color/colorAccent">
 
                     </View>
+
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/parent"
                         android:layout_height="40dp"
@@ -279,6 +348,7 @@
                         </LinearLayout>
 
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -287,6 +357,7 @@
                         android:background="@color/colorAccent">
 
                     </View>
+
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/parent"
                         android:layout_height="50dp"
@@ -308,36 +379,38 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-
                 </LinearLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
                     android:layout_marginTop="@dimen/signup_text_margin_top">
+
                     <EditText
                         android:id="@+id/edt_gb"
                         style="@style/modifiedEditText"
+                        android:hint="GB"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
+                        android:singleLine="true"
                         android:textColor="#000"
                         android:textColorHint="#433F3F"
-                        android:textSize="15dp"
-                        android:singleLine="true"
-                        android:hint="GB"/>
+                        android:textSize="15dp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="2dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="2dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="17dp"
                         android:layout_marginTop="5dp"
+                        android:text="Warranty"
                         android:textColor="@android:color/black"
-                        android:text="Warranty">
+                        android:textSize="17dp">
 
                     </TextView>
 
@@ -345,8 +418,8 @@
                         android:id="@+id/radioWarranty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
                         android:layout_marginLeft="20dp"
+                        android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -367,17 +440,16 @@
                         </RadioButton>
 
 
-
                     </RadioGroup>
 
                     <Spinner
                         android:id="@+id/Warranty_spinner"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="right">
-                    </Spinner>
+                        android:layout_gravity="right"
+                        android:visibility="gone"></Spinner>
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -386,39 +458,41 @@
                     android:background="@color/colorAccent">
 
                 </View>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="2dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="2dp">
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/parent"
-                        android:layout_weight="9"
-                        android:layout_width="0dp">
+                        android:layout_width="0dp"
+                        android:layout_weight="9">
+
                         <EditText
                             android:id="@+id/edt_imei"
                             style="@style/modifiedEditText"
+                            android:hint="Imei no."
                             android:inputType="textEmailAddress"
+                            android:maxLength="15"
                             android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="#000"
                             android:textColorHint="#433F3F"
-                            android:textSize="17dp"
-                            android:maxLength="15"
-                            android:singleLine="true"
-                            android:hint="Imei no."/>
+                            android:textSize="17dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-               <ImageView
-                   android:id="@+id/scanNow"
-                   android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:layout_gravity="center_vertical"
-                   android:src="@drawable/ic_scan"
-                   android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/scanNow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_scan">
 
-               </ImageView>
+                    </ImageView>
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -464,151 +538,158 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
                     android:layout_marginTop="@dimen/signup_text_margin_top">
+
                     <EditText
                         android:id="@+id/edt_purchase_amount"
                         style="@style/modifiedEditText"
+                        android:hint="Purchase Amount"
+                        android:inputType="number"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#000"
                         android:textColorHint="#433F3F"
-                        android:textSize="17dp"
-                        android:inputType="number"
-                        android:hint="Purchase Amount"/>
+                        android:textSize="17dp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
                     android:layout_marginTop="@dimen/signup_text_margin_top">
+
                     <EditText
                         android:id="@+id/edt_customer_name"
                         style="@style/modifiedEditText"
+                        android:hint="Customer Name"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#000"
                         android:textColorHint="#433F3F"
-                        android:textSize="17dp"
-                        android:hint="Customer Name"/>
+                        android:textSize="17dp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:layout_marginTop="@dimen/signup_text_margin_top">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/signup_text_margin_top"
+                    android:orientation="horizontal">
 
-                   <com.google.android.material.textfield.TextInputLayout
-                       style="@style/parent"
-                       android:layout_width="0dp"
-                       android:layout_weight="8">
-                       <EditText
-                           android:id="@+id/edt_customer_mobile"
-                           style="@style/modifiedEditText"
-                           android:maxLines="1"
-                           android:singleLine="true"
-                           android:textColor="#000"
-                           android:inputType="phone"
-                           android:textColorHint="#433F3F"
-                           android:textSize="17dp"
-                           android:maxLength="10"
-                           android:hint="Customer Mobile"/>
-                   </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="8">
 
-                   <Button
-                       android:id="@+id/otpButton"
-                       android:layout_width="0dp"
-                       android:layout_weight="2"
-                       android:layout_height="40dp"
-                       android:layout_marginRight="2dp"
-                       android:layout_gravity="center_vertical"
-                       android:textColor="@android:color/white"
-                       android:background="@drawable/loginbuttonshape"
-                       android:text="Verify"
+                        <EditText
+                            android:id="@+id/edt_customer_mobile"
+                            style="@style/modifiedEditText"
+                            android:hint="Customer Mobile"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textColor="#000"
+                            android:textColorHint="#433F3F"
+                            android:textSize="17dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                      />
+                    <Button
+                        android:id="@+id/otpButton"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/loginbuttonshape"
+                        android:text="Verify"
+                        android:textColor="@android:color/white"
 
-               </LinearLayout>
+                        />
+
+                </LinearLayout>
+
                 <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="horizontal"
-                   android:layout_marginTop="@dimen/signup_text_margin_top">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/signup_text_margin_top"
+                    android:orientation="horizontal">
 
-                   <com.google.android.material.textfield.TextInputLayout
-                       style="@style/parent"
-                       android:layout_width="0dp"
-                       android:layout_weight="8">
-                       <EditText
-                           android:id="@+id/edt_customer_aadhar"
-                           style="@style/modifiedEditText"
-                           android:maxLines="1"
-                           android:textColor="#000"
-                           android:inputType="phone"
-                           android:textColorHint="#433F3F"
-                           android:textSize="17dp"
-                           android:maxLength="12"
-                           android:hint="Customer Aadhar no."/>
-                   </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="8">
 
-                   <Button
-                       android:id="@+id/aadharButton"
-                       android:layout_width="0dp"
-                       android:layout_weight="2"
-                       android:layout_height="40dp"
-                       android:layout_marginRight="2dp"
-                       android:layout_gravity="center_vertical"
-                       android:textColor="@android:color/white"
-                       android:background="@drawable/loginbuttonshape"
-                       android:text="Verify"
-                      />
+                        <EditText
+                            android:id="@+id/edt_customer_aadhar"
+                            style="@style/modifiedEditText"
+                            android:hint="Customer Aadhar no."
+                            android:inputType="phone"
+                            android:maxLength="12"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textColorHint="#433F3F"
+                            android:textSize="17dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-               </LinearLayout>
+                    <Button
+                        android:id="@+id/aadharButton"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/loginbuttonshape"
+                        android:text="Verify"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/bankButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="2dp"
-                    android:textColor="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="2dp"
                     android:background="@drawable/loginbuttonshape"
                     android:text="Bank Details"
-                    />
+                    android:textColor="@android:color/white" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
                     android:layout_marginTop="@dimen/signup_text_margin_top">
+
                     <EditText
                         android:id="@+id/edt_remarks"
                         style="@style/modifiedEditText"
+                        android:hint="Remarks"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#000"
                         android:textColorHint="#433F3F"
-                        android:textSize="17dp"
-                        android:hint="Remarks"/>
+                        android:textSize="17dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
                     android:layout_marginTop="@dimen/signup_text_margin_top">
+
                     <EditText
                         android:id="@+id/edt_actualPrice"
                         style="@style/modifiedEditText"
+                        android:hint="App Price"
+                        android:inputType="number"
                         android:maxLines="1"
                         android:textColor="#000"
-                        android:inputType="number"
                         android:textColorHint="#433F3F"
-                        android:textSize="17dp"
-                        android:hint="App Price"/>
+                        android:textSize="17dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <Button
                     android:id="@+id/finalSubmitButton"
                     style="@style/loginButton"
-                    android:text="Submit"
-                    android:background="@drawable/login_shape_bk"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/loginViewsMargin"/>
+                    android:layout_marginTop="@dimen/loginViewsMargin"
+                    android:background="@drawable/login_shape_bk"
+                    android:text="Submit" />
             </LinearLayout>
 
         </ScrollView>

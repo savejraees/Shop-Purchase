@@ -56,6 +56,22 @@ public interface ApiInterface {
                                  @Field("purchase_cat_name") String cat_name, @Field("business_location_id") String buisnessID,
                                  @Field("barcode_scan") String barcode);
 
+ @FormUrlEncoded
+    @POST("purchase_booking_new")
+    Call<ShopModel> hitFinalShopWithExchange(@Field("key") String key, @Field("order_no") String order, @Field("product_category") String product,
+                                 @Field("storage") String gb, @Field("warrenty") String warranty,
+                                 @Field("warrenty_month") String warrantyMonth, @Field("imei_no") String imei,
+                                 @Field("purchase_amount") String amount, @Field("customer_name") String name,
+                                 @Field("customer_mobile") String mobile, @Field("customer_aadhar") String aadhar,
+                                 @Field("remark") String remark, @Field("app_price") String app_Price,
+                                 @Field("brand_id") String brand, @Field("series_name") String series,
+                                 @Field("model_id") String model, @Field("userid") String userId,
+                                 @Field("condition") String condition, @Field("exchange") String exchange,
+                                 @Field("purchase_cat_name") String cat_name, @Field("business_location_id") String buisnessID,
+                                 @Field("barcode_scan") String barcode,@Field("cash") String cash,
+                                 @Field("bank") String bank,@Field("exchange_price") String exchange_price);
+
+
     @Multipart
     @POST("shop_purchase_uplode_image")
     Call<JsonObject> imageAPi(@Part MultipartBody.Part[] imageArray1, @PartMap() Map<String, RequestBody> partMap);

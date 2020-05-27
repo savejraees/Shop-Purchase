@@ -94,56 +94,58 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.LatestViewHo
                 final int position = holder.getAdapterPosition();
                 final String barcode = totalModel.getBarcodeScan();
 
-
-                if(scanValue==1){
-                    FragmentManager fragmentManager = ((ManagerActivity)context).getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    ScanFragment scanFragment = new ScanFragment();
-                    fragmentTransaction.add(R.id.frameLayout, scanFragment);
-                    fragmentTransaction.commit();
-                }
+                Log.d("lksafsfa", String.valueOf(phoneId)+" "+totalModel.getBrandName()+" "+totalModel.getModelName());
 
 
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.warehouse_dialog);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setCancelable(false);
-                Button codeSubmitButton = dialog.findViewById(R.id.codeSubmitButton);
-                Button cancelButton = dialog.findViewById(R.id.codecancelButton);
-//                    final TextView txtBarcodeSubmit = dialog.findViewById(R.id.txtBarcodeSubmit);
-
-                dialog.show();
-                codeSubmitButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-//                            txtBarcodeSubmit.setText(edtsearchAll.getText().toString());
-
-                        if(((ManagerActivity)context).barcode.equals(barcode)){
-                            dialog.dismiss();
-                            hitMatchStock(phoneId, position);
-                        }else {
-                            Toast.makeText(context, "Barcode does not Match", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    }
-                });
-
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        FragmentManager fragmentManager = ((ManagerActivity)context).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        StockFragment scanFragment = new StockFragment();
-                        fragmentTransaction.replace(R.id.frameLayout, scanFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-
-                        dialog.dismiss();
-                    }
-                });
+//                if(scanValue==1){
+//                    FragmentManager fragmentManager = ((ManagerActivity)context).getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    ScanFragment scanFragment = new ScanFragment();
+//                    fragmentTransaction.add(R.id.frameLayout, scanFragment);
+//                    fragmentTransaction.commit();
+//                }
+//
+//
+//                final Dialog dialog = new Dialog(context);
+//                dialog.setContentView(R.layout.warehouse_dialog);
+//                dialog.setCanceledOnTouchOutside(false);
+//                dialog.setCancelable(false);
+//                Button codeSubmitButton = dialog.findViewById(R.id.codeSubmitButton);
+//                Button cancelButton = dialog.findViewById(R.id.codecancelButton);
+////                    final TextView txtBarcodeSubmit = dialog.findViewById(R.id.txtBarcodeSubmit);
+//
+//                dialog.show();
+//                codeSubmitButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+////                            txtBarcodeSubmit.setText(edtsearchAll.getText().toString());
+//
+//                        if(((ManagerActivity)context).barcode.equals(barcode)){
+//                            dialog.dismiss();
+//                            hitMatchStock(phoneId, position);
+//                        }else {
+//                            Toast.makeText(context, "Barcode does not Match", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//
+//                    }
+//                });
+//
+//                cancelButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//                        FragmentManager fragmentManager = ((ManagerActivity)context).getSupportFragmentManager();
+//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                        StockFragment scanFragment = new StockFragment();
+//                        fragmentTransaction.replace(R.id.frameLayout, scanFragment);
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+//
+//                        dialog.dismiss();
+//                    }
+//                });
 
             }
         });
