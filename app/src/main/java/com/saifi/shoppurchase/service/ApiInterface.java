@@ -54,7 +54,8 @@ public interface ApiInterface {
                                  @Field("model_id") String model, @Field("userid") String userId,
                                  @Field("condition") String condition, @Field("exchange") String exchange,
                                  @Field("purchase_cat_name") String cat_name, @Field("business_location_id") String buisnessID,
-                                 @Field("barcode_scan") String barcode);
+                                 @Field("barcode_scan") String barcode,@Field("cash") String cash,
+                                 @Field("bank") String bank);
 
  @FormUrlEncoded
     @POST("purchase_booking_new")

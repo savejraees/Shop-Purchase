@@ -171,49 +171,10 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <RadioGroup
-                        android:id="@+id/radioCash"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radioBtnCash"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Cash"
-                            android:textSize="17dp" />
-
-
-                        <RadioButton
-                            android:id="@+id/radioBtnBank"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:text="Bank"
-                            android:textSize="17dp" />
-
-
-                    </RadioGroup>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/parent"
-                        android:layout_marginTop="@dimen/signup_text_margin_top">
-
-                        <EditText
-                            android:id="@+id/editCash"
-                            style="@style/modifiedEditText"
-                            android:hint="Enter cash or bank amount"
-                            android:maxLines="1"
-                            android:textColor="#000"
-                            android:inputType="number"
-                            android:textColorHint="#433F3F"
-                            android:textSize="17dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
+
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/parent"
@@ -458,6 +419,56 @@
                     android:background="@color/colorAccent">
 
                 </View>
+
+                <RadioGroup
+                    android:id="@+id/radioCash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioBtnCash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cash"
+                        android:textSize="17dp" />
+
+
+                    <RadioButton
+                        android:id="@+id/radioBtnBank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Bank"
+                        android:textSize="17dp" />
+
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/colorAccent">
+
+                </View>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/parent"
+                    android:layout_marginTop="@dimen/signup_text_margin_top">
+
+                    <EditText
+                        android:id="@+id/editCash"
+                        style="@style/modifiedEditText"
+                        android:hint="Enter cash or bank amount"
+                        android:maxLines="1"
+                        android:textColor="#000"
+                        android:inputType="number"
+                        android:textColorHint="#433F3F"
+                        android:textSize="17dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

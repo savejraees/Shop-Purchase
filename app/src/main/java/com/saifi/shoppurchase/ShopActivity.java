@@ -242,7 +242,6 @@ public class ShopActivity extends AppCompatActivity implements
                 // startActivity(new Intent(getApplicationContext(), ShopImageActivity.class));
 
 
-
                 if (radioAccesories.isChecked()) {
                     brand_id = edit_Brand.getText().toString();
                     modelId = edt_model.getText().toString();
@@ -260,7 +259,13 @@ public class ShopActivity extends AppCompatActivity implements
                 else if (edt_gb.getText().toString().isEmpty()) {
                     edt_gb.setError("Please enter GB");
                     edt_gb.requestFocus();
-                } else if (edt_imei.getText().toString().isEmpty()) {
+                }
+                else if (editCash.getText().toString().isEmpty()){
+                    editCash.setError("Please Enter cash or bank amount");
+                    editCash.requestFocus();
+
+                }
+                else if (edt_imei.getText().toString().isEmpty()) {
                     edt_imei.setError("Please enter Imei no.");
                     edt_imei.requestFocus();
                 } else if (edt_purchase_amount.getText().toString().isEmpty()) {
@@ -486,12 +491,6 @@ public class ShopActivity extends AppCompatActivity implements
                 editExchangeAmount.requestFocus();
 
             }
-            else if (editCash.getText().toString().isEmpty()){
-                views.hideProgress();
-                editCash.setError("Please Enter cash or bank amount");
-                editCash.requestFocus();
-
-            }
             else {
                 Retrofit retrofit = new Retrofit.Builder()
                         .addConverterFactory(GsonConverterFactory.create())
@@ -548,7 +547,7 @@ public class ShopActivity extends AppCompatActivity implements
                     edt_customer_mobile.getText().toString(), edt_customer_aadhar.getText().toString(),
                     remark, edt_actualPrice.getText().toString(),
                     brand_id, seriesName, modelId, userId, conditon_Mobile, editTextExchange.getText().toString(),
-                    "Shop Purchase", sessonManager.getBuisnessLocationId(), "");
+                    "Shop Purchase", sessonManager.getBuisnessLocationId(), "",cash,bank);
 
             call.enqueue(new Callback<ShopModel>() {
                 @Override
@@ -570,7 +569,7 @@ public class ShopActivity extends AppCompatActivity implements
                 public void onFailure(Call<ShopModel> call, Throwable t) {
                     views.hideProgress();
                     Toast.makeText(ShopActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-               Log.d("hgggggggggggg",t.getMessage());
+                Log.d("hgggggggggggg",t.getMessage());
                 }
             });
         }
