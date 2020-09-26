@@ -18,6 +18,8 @@ import com.saifi.shoppurchase.retrofitmodel.StatusModel;
 import com.saifi.shoppurchase.service.ApiInterface;
 import com.saifi.shoppurchase.util.Views;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,6 +87,10 @@ public class SplashActivity extends AppCompatActivity {
                 Retrofit retrofit = new Retrofit.Builder()
                         .addConverterFactory(GsonConverterFactory.create())
                         .baseUrl(Url.BASE_URL)
+                        .client(new OkHttpClient.Builder().addInterceptor(new HttpLoggingInterceptor().setLevel(
+                                HttpLoggingInterceptor.Level.BODY
+                        ))
+                                .build())
                         .build();
 
                 ApiInterface api = retrofit.create(ApiInterface.class);

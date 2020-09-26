@@ -1,7 +1,7 @@
 package com.saifi.shoppurchase.constants;
 
 public class Url {
-    public static  String BASE_URL = "https://cellway.in/mobileappold/index.php/";
+    public static  String BASE_URL = "http://cellway.in/mobileappold/index.php/";
     public static  String key = "5642vcb546gfnbvb7r6ewc211365vhh34";
 
     public static  final String getBrand = BASE_URL+"getbrand";

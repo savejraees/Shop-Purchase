@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,10 +23,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -40,7 +44,6 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.saifi.shoppurchase.adapter.MobileImageAdapter;
 import com.saifi.shoppurchase.constants.Url;
 import com.saifi.shoppurchase.model.ImageModel;
 import com.saifi.shoppurchase.service.ApiInterface;
@@ -90,6 +93,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
     String imageEncodedInvoice, imageEncodedMobile, imageEncodedCustomer;
     RecyclerView rv_Invoice, rv_Mobile, rv_Customer;
     public MobileImageAdapter mIMGAdapter;
+    public CustomerImageAdapter cIMGAdapter;
+    public InvoiceImageAdapter InvoiceIMGAdapter;
     Bitmap bitmapInVoice, bitmapMobile, bitmapCustomer;
     Views views;
 
@@ -650,8 +655,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
             }
 
             rv_Invoice.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-            mIMGAdapter = new MobileImageAdapter(Invoicelist, ShopImageActivity.this);
-            rv_Invoice.setAdapter(mIMGAdapter);
+            InvoiceIMGAdapter = new InvoiceImageAdapter(Invoicelist, ShopImageActivity.this);
+            rv_Invoice.setAdapter(InvoiceIMGAdapter);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -704,8 +709,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 //Toast.makeText(getApplicationContext(), "Max Limit Only 10", Toast.LENGTH_SHORT).show();
             }
             rv_Customer.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-            mIMGAdapter = new MobileImageAdapter(Customerlist, ShopImageActivity.this);
-            rv_Customer.setAdapter(mIMGAdapter);
+            cIMGAdapter = new CustomerImageAdapter(Customerlist, ShopImageActivity.this);
+            rv_Customer.setAdapter(cIMGAdapter);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -799,8 +804,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 }
 
                 rv_Invoice.setLayoutManager(new LinearLayoutManager(ShopImageActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                mIMGAdapter = new MobileImageAdapter(Invoicelist, ShopImageActivity.this);
-                rv_Invoice.setAdapter(mIMGAdapter);
+                InvoiceIMGAdapter = new InvoiceImageAdapter(Invoicelist, ShopImageActivity.this);
+                rv_Invoice.setAdapter(InvoiceIMGAdapter);
 
             } catch (Exception e) {
 
@@ -935,8 +940,8 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
                 }
 
                 rv_Customer.setLayoutManager(new LinearLayoutManager(ShopImageActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                mIMGAdapter = new MobileImageAdapter(Customerlist, ShopImageActivity.this);
-                rv_Customer.setAdapter(mIMGAdapter);
+                cIMGAdapter = new CustomerImageAdapter(Customerlist, ShopImageActivity.this);
+                rv_Customer.setAdapter(cIMGAdapter);
 
             } catch (Exception e) {
 
@@ -944,6 +949,183 @@ public class ShopImageActivity extends AppCompatActivity implements ScanResultRe
             }
         }
 
+    }
+
+    public class MobileImageAdapter extends RecyclerView.Adapter<MobileImageAdapter.ListViewHolder> {
+        ArrayList<ImageModel> list;
+        Context context;
+
+        public MobileImageAdapter(ArrayList<ImageModel> list, Context context) {
+            this.context = context;
+            this.list = list;
+        }
+
+        @Override
+        public MobileImageAdapter.ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.row_image, null);
+
+            return new MobileImageAdapter.ListViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(MobileImageAdapter.ListViewHolder holder, final int position) {
+            final ImageModel imageModel = list.get(position);
+            holder.image.setImageBitmap(imageModel.getImageMobile());
+            holder.close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    removeAt(position);
+                }
+            });
+        }
+
+        public void removeAt(int position) {
+            list.remove(position);
+            notifyItemRemoved(position);
+            notifyItemChanged(position);
+            imagePathListMobile.remove(position);
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ListViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView image;
+            TextView close;
+
+            public ListViewHolder(View itemView) {
+                super(itemView);
+
+                image = itemView.findViewById(R.id.ivGallery);
+                close = itemView.findViewById(R.id.badge_view);
+            }
+
+        }
+    }
+
+    public class CustomerImageAdapter extends RecyclerView.Adapter<CustomerImageAdapter.ListViewHolder> {
+        ArrayList<ImageModel> list;
+        Context context;
+
+        public CustomerImageAdapter(ArrayList<ImageModel> list, Context context) {
+            this.context = context;
+            this.list = list;
+        }
+
+        @Override
+        public CustomerImageAdapter.ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.row_image, null);
+
+            return new CustomerImageAdapter.ListViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CustomerImageAdapter.ListViewHolder holder, final int position) {
+            final ImageModel imageModel = list.get(position);
+            holder.image.setImageBitmap(imageModel.getImageMobile());
+            holder.close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    removeAt(position);
+                }
+            });
+        }
+
+        public void removeAt(int position) {
+            list.remove(position);
+            notifyItemRemoved(position);
+            notifyItemChanged(position);
+            imagePathListCustomer.remove(position);
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ListViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView image;
+            TextView close;
+
+            public ListViewHolder(View itemView) {
+                super(itemView);
+
+                image = itemView.findViewById(R.id.ivGallery);
+                close = itemView.findViewById(R.id.badge_view);
+            }
+
+        }
+    }
+
+    public class InvoiceImageAdapter extends RecyclerView.Adapter<InvoiceImageAdapter.ListViewHolder> {
+        ArrayList<ImageModel> list;
+        Context context;
+
+        public InvoiceImageAdapter(ArrayList<ImageModel> list, Context context) {
+            this.context = context;
+            this.list = list;
+        }
+
+        @Override
+        public InvoiceImageAdapter.ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.row_image, null);
+
+            return new InvoiceImageAdapter.ListViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(InvoiceImageAdapter.ListViewHolder holder, final int position) {
+            final ImageModel imageModel = list.get(position);
+            holder.image.setImageBitmap(imageModel.getImageMobile());
+            holder.close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    removeAt(position);
+                }
+            });
+        }
+
+        public void removeAt(int position) {
+            list.remove(position);
+            notifyItemRemoved(position);
+            notifyItemChanged(position);
+            imagePathListInvoice.remove(position);
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ListViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView image;
+            TextView close;
+
+            public ListViewHolder(View itemView) {
+                super(itemView);
+
+                image = itemView.findViewById(R.id.ivGallery);
+                close = itemView.findViewById(R.id.badge_view);
+            }
+
+        }
     }
 
 
