@@ -5,19 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F6F4F4"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="5dp">
+    android:layout_marginTop="5dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="2dp"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
@@ -26,21 +24,18 @@
                 android:layout_height="130dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:src="@drawable/phone_icon">
-
-            </ImageView>
+                android:src="@drawable/phone_icon"/>
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:orientation="vertical"
-                android:paddingBottom="2dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:paddingTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -84,9 +79,7 @@
                     android:layout_height="wrap_content"
                     android:text="abcd"
                     android:textColor="@android:color/black"
-                    android:textSize="15dp">
-
-                </TextView>
+                    android:textSize="15dp"/>
 
                 <TextView
                     android:id="@+id/txtNameReceived"
@@ -94,9 +87,7 @@
                     android:layout_height="wrap_content"
                     android:text="absacd"
                     android:textColor="@android:color/black"
-                    android:textSize="15dp">
-
-                </TextView>
+                    android:textSize="15dp"/>
 
                 <TextView
                     android:id="@+id/txtBarcodeReceived"
@@ -104,21 +95,17 @@
                     android:layout_height="wrap_content"
                     android:text="absacd"
                     android:textColor="@android:color/black"
-                    android:textSize="15dp">
-
-                </TextView>
+                    android:textSize="15dp"/>
 
                 <Button
                     android:id="@+id/receivedButton"
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/loginbuttonshape"
                     android:text="Scan"
                     android:textAllCaps="false"
-                    android:textColor="@android:color/white"
-
-                    />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
