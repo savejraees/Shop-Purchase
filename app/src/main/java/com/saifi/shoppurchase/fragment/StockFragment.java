@@ -132,7 +132,7 @@ public class StockFragment extends Fragment implements RecyclerView.OnScrollChan
     @Override
     public void onScrollChange(View view, int i, int i1, int i2, int i3) {
         if (isLastItemDisplaying(rvAll)) {
-            if (currentPage <= totalPage && listData2.size() > 1) {
+            if ((currentPage <= totalPage) && (listData2.size() > 1)) {
                 hitApi();
             }
 
