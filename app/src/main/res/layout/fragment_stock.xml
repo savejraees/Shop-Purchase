@@ -5,9 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingBottom="50dp"
     tools:context=".fragment.StockFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="35dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -71,14 +75,26 @@
 
     </RelativeLayout>
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStock"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/btnFinalSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/search_round"
+            android:textColor="@color/whiteTextColor"
+            android:layout_marginBottom="50dp"
+            android:text="Final Submit Stock"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

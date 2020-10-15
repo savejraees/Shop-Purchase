@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -29,6 +30,7 @@ import com.saifi.shoppurchase.adapter.StockAdapter;
 import com.saifi.shoppurchase.constants.SessonManager;
 import com.saifi.shoppurchase.constants.Url;
 import com.saifi.shoppurchase.retrofitmodel.managerStock.StockDatum;
+import com.saifi.shoppurchase.retrofitmodel.managerStock.StockFinalSubmitModel;
 import com.saifi.shoppurchase.retrofitmodel.managerStock.StockStstusModel;
 import com.saifi.shoppurchase.service.ApiInterface;
 import com.saifi.shoppurchase.util.ScanFragment;
@@ -66,7 +68,8 @@ public class StockFragment extends Fragment implements RecyclerView.OnScrollChan
     TextView txtClear,txtTotalItem;
     static  public int totalItem=0;
     static public int scanValue=1;
-    boolean scanAdapterFragment =false;
+    boolean scanAdapterFragment = false;
+    Button btnFinalSubmit;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,10 +82,11 @@ public class StockFragment extends Fragment implements RecyclerView.OnScrollChan
         imgScanAll = view.findViewById(R.id.imgScanStock);
         txtClear = view.findViewById(R.id.txtClearStock);
         txtTotalItem = view.findViewById(R.id.txtTotalItem);
+        btnFinalSubmit = view.findViewById(R.id.btnFinalSubmit);
         layoutManager = new GridLayoutManager(getContext(), 1);
         rvAll.setLayoutManager(layoutManager);
         sessonManager = new SessonManager(getActivity());
-
+      //  Log.d("lxkdajsads",sessonManager.getBuisnessLocationId()+"  "+sessonManager.getToken());
         hitApi();
 
         rvAll.setOnScrollChangeListener(this);
@@ -117,7 +121,56 @@ public class StockFragment extends Fragment implements RecyclerView.OnScrollChan
                 fragmentTransaction.commit();
             }
         });
+
+        btnFinalSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hitFinalSubmitApi();
+            }
+        });
         return view;
+    }
+
+    private void hitFinalSubmitApi() {
+        views.showProgress(getActivity());
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Url.BASE_URL)
+                .build();
+
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        Call<StockFinalSubmitModel>  call = api.hitFinalStockApi(Url.key, sessonManager.getToken(), sessonManager.getBuisnessLocationId());
+        call.enqueue(new Callback<StockFinalSubmitModel>() {
+            @Override
+            public void onResponse(Call<StockFinalSubmitModel> call, Response<StockFinalSubmitModel> response) {
+                views.hideProgress();
+
+                if (response.isSuccessful()) {
+                    StockFinalSubmitModel model = response.body();
+                    if(model.getCode().equals("200")){
+                        Toast.makeText(getActivity(), ""+model.getMsg(), Toast.LENGTH_SHORT).show();
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        StockFragment scanFragment = new StockFragment();
+                        fragmentTransaction.replace(R.id.frameLayout, scanFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), ""+model.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getActivity(), ""+response.errorBody(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StockFinalSubmitModel> call, Throwable t) {
+                views.hideProgress();
+                Toast.makeText(getActivity(), ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean isLastItemDisplaying(RecyclerView recyclerView) {

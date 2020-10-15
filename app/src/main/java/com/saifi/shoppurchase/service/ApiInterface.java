@@ -9,6 +9,7 @@ import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseStatusModel;
 import com.saifi.shoppurchase.retrofitmodel.manager.PurchaseWareHouseModel;
 import com.saifi.shoppurchase.retrofitmodel.managerReceived.ReceivedStatusModel;
 import com.saifi.shoppurchase.retrofitmodel.managerReceived.SubmitToStockModel;
+import com.saifi.shoppurchase.retrofitmodel.managerStock.StockFinalSubmitModel;
 import com.saifi.shoppurchase.retrofitmodel.managerStock.StockMatch;
 import com.saifi.shoppurchase.retrofitmodel.managerStock.StockStstusModel;
 
@@ -92,6 +93,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("manager_stock_list")
     Call<StockStstusModel> hitAllStockApi(@Field("key") String key, @Field("page") String page, @Field("business_location_id") String business_location_id);
+
+    @FormUrlEncoded
+    @POST("manager_send_stock_details")
+    Call<StockFinalSubmitModel> hitFinalStockApi(@Field("key") String key, @Field("user_id") String user_id, @Field("business_location_id") String business_location_id);
 
     @FormUrlEncoded
     @POST("manager_stock_list")
