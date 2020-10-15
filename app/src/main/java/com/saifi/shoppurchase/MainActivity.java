@@ -5,8 +5,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +19,12 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.saifi.shoppurchase.constants.SessonManager;
+import com.saifi.shoppurchase.updateChecker.GooglePlayStoreAppVersionNameLoader;
+import com.saifi.shoppurchase.updateChecker.WSCallerVersionListener;
 
 import static android.media.MediaRecorder.VideoSource.CAMERA;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WSCallerVersionListener {
 
 
     Button shopButton, managerButton, returnButton;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     long back_pressed = 0;
     SessonManager sessonManager;
     TextView txtLogout;
+    boolean isForceUpdate = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         sessonManager = new SessonManager(getBaseContext());
 
+        new GooglePlayStoreAppVersionNameLoader(getApplicationContext(), this).execute();
         askForPermissioncamera(Manifest.permission.CAMERA, CAMERA);
+
 
         managerButton = findViewById(R.id.managerButton);
         shopButton = findViewById(R.id.shopButton);
@@ -78,6 +86,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ReturnActivity.class));
             }
         });
+    }
+
+   @Override
+    public void onGetResponse(boolean isUpdateAvailable) {
+        if (isUpdateAvailable) {
+            showUpdateDialog();
+        }
+    }
+    // popup for location
+
+    public void showUpdateDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+        alertDialogBuilder.setTitle(MainActivity.this.getString(R.string.app_name));
+        alertDialogBuilder.setMessage(MainActivity.this.getString(R.string.update_message));
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton(R.string.update_now, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                MainActivity.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                dialog.cancel();
+            }
+        });
+        alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (isForceUpdate) {
+                    finish();
+                }
+                dialog.dismiss();
+            }
+        });
+        alertDialogBuilder.show();
     }
 
     @Override
